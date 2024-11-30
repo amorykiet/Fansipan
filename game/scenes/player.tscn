@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://bouliy1de7hlo"]
+
+[ext_resource type="Script" path="res://game/scripts/player/player.gd" id="1_0s8a0"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_re164"]
+load_path = "res://.godot/imported/delta.png-caae2a1db31b7923eb6886cb44080a0b.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5tw5p"]
+resource_local_to_scene = true
+size = Vector2(8, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fgyv8"]
+size = Vector2(8, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nusw8"]
+size = Vector2(8, 9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gq5gu"]
+size = Vector2(8, 4)
+
+[node name="Player" type="CharacterBody2D"]
+texture_filter = 1
+collision_mask = 2
+script = ExtResource("1_0s8a0")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-1, 0)
+texture = SubResource("CompressedTexture2D_re164")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="NormalCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_5tw5p")
+
+[node name="DuckCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_fgyv8")
+
+[node name="NormalHurtbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NormalHurtbox"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_nusw8")
+debug_color = Color(0.909335, 0.265106, 0.360163, 0.42)
+
+[node name="DuckHurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DuckHurtbox"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_gq5gu")
+debug_color = Color(0.909804, 0.266667, 0.360784, 0.419608)
+
+[node name="UnduckCheckBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="NormalCollision" type="CollisionShape2D" parent="UnduckCheckBox"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_5tw5p")
