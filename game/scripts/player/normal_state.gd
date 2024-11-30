@@ -21,7 +21,9 @@ func _update(player: Player, delta: float):
 				player.ducking = false
 				player.change_state(player.climb_state)
 			
-	# TODO: dashing
+	# Dashing
+	if player.can_dash:
+		player.start_dash()
 	# Ducking
 	if player.ducking:
 		if player.on_ground and player.move_y != 1:

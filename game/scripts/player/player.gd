@@ -50,7 +50,14 @@ const CLIMB_SLIP_SPEED: float = 30.0
 const CLIMB_UP_COST: float = 100.0 / 2.2
 const CLIMB_STILL_COST: float = 100.0 / 10.0
 
+const DASH_COOLDOWN: float = 0.2
+const DASH_REFILL_COOLDOWN: float = 0.1
+const DASH_SPEED: float = 240.0
+const DASH_TIME: float = 0.15
+const END_DASH_SPEED: float = 160.0
+const END_DASH_UP_MULT: float = 0.75
 
+const DODGE_SLIDE_SPEED_MULT: float = 1.2
 #endregion
 
 #region Variables
@@ -83,6 +90,10 @@ var dashes: int
 var last_aim: Vector2
 var dash_cooldown_timer: float
 var dash_refill_cooldown_timer: float
+var dash_started_on_ground: bool
+var before_dash_speed: Vector2
+var dash_dir: Vector2
+
 #endregion
 
 #region States
@@ -146,6 +157,12 @@ func _physics_process(delta):
 	if move_x != 0 and current_state != climb_state: 
 		facing = move_x
 	
+	# last_aim
+	if move_x == 0 and move_y == 0:
+		last_aim = Vector2.RIGHT * facing
+	else:
+		last_aim = Vector2(move_x, move_y).normalized()
+	
 	# climb hop wait
 	if hop_wait_x != 0:
 		if signf(velocity.x) == -hop_wait_x or velocity.y > 0:
@@ -158,7 +175,6 @@ func _physics_process(delta):
 	if wall_slide_dir != 0:
 		wall_slide_timer = maxf(wall_slide_timer - delta, 0)
 		wall_slide_dir = 0
-	
 	
 	# wall boost
 	if wall_boost_timer > 0:
@@ -178,6 +194,14 @@ func _physics_process(delta):
 		jump_grace_timer = JUMP_GRACE_TIME
 	elif jump_grace_timer > 0:
 		jump_grace_timer -= delta
+	
+	# dashes
+	if dash_cooldown_timer > 0:
+		dash_cooldown_timer -= delta
+	if dash_refill_cooldown_timer > 0:
+		dash_refill_cooldown_timer -= delta
+	elif on_ground:
+		refill_dash()
 	
 	# var jump
 	if var_jump_timer > 0:
@@ -234,6 +258,10 @@ var can_dash: bool:
 	get:
 		return InputBuffer.is_action_press_buffered("dash") and\
 				dash_cooldown_timer <= 0 and dashes > 0
+
+func refill_dash():
+	# NOTE: if having more dash?
+	dashes = 1
 
 func start_dash():
 	# NOTE: if having more dash?

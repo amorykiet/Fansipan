@@ -1,11 +1,5 @@
 extends Node2D
-# Keeps track of recent inputs in order to make timing windows more flexible.
-# Intended use: Add this file to your project as an Autoload script and have other objects call the class' methods.
-# (more on AutoLoad: https://docs.godotengine.org/en/stable/tutorials/scripting/singletons_autoload.html)
-
-# How many milliseconds ahead of time the player can make an input and have it still be recognized.
-# I chose the value 150 because it imitates the 9-frame buffer window in the Super Smash Bros. Ultimate game.
-const BUFFER_WINDOW: int = 50
+const BUFFER_WINDOW: int = 150
 
 var keyboard_timestamps: Dictionary
 

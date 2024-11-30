@@ -25,7 +25,7 @@ func _update(player: Player, delta: float):
 	if player.on_ground:
 		player.stamina = player.CLIMB_MAX_STAMINA
 	
-	# jump
+	# Wall jump
 	if InputBuffer.is_action_press_buffered("jump") and\
 			(not player.ducking or player.can_un_duck):
 		if player.move_x == -player.facing:
@@ -35,7 +35,11 @@ func _update(player: Player, delta: float):
 		
 		player.change_state(player.normal_state)
 	
-	# leave
+	# Dashing
+	if player.can_dash:
+		player.start_dash()
+	
+	# Leave
 	if not Input.is_action_pressed("grab"):
 		# NOTE: lift boost?
 		player.change_state(player.normal_state)
