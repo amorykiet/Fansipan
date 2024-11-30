@@ -15,8 +15,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	# TEST
-
+	
 	player_sprite.position.x = round(player.position.x) * SCREEN_SCALE
 	player_sprite.position.y = player.position.y * SCREEN_SCALE
 	player_sprite.scale.x = player.facing * SCREEN_SCALE

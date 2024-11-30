@@ -5,6 +5,7 @@ extends CharacterBody2D
 
 #region Constants
 const HALF_WIDTH: int = 4
+const HEAD_HEIGHT: int = 5
 
 const MAX_FALL: float = 160.0
 const GRAVITY: float = 900.0
@@ -37,6 +38,18 @@ const CLIMB_MAX_STAMINA: float = 110
 const CLIMB_CHECK_DIST: int = 2
 const CLIMB_GRAB_Y_MULT: float = 0.2
 const CLIMB_NO_MOVE_TIME: float = 0.1
+const CLIMB_JUMP_COST: float = 110.0 / 4.0
+const CLIMB_JUMP_BOOST_TIME: float = 0.2
+const CLIMB_UP_SPEED: float = -45.0
+const CLIMB_DOWN_SPEED: float = 80.0
+const CLIMB_ACCEL: float = 900.0
+const CLIMB_HOP_Y: float = -120.0
+const CLIMB_HOP_X: float = 100.0
+const CLIMB_HOP_FORCE_TIME: float = 0.2
+const CLIMB_SLIP_SPEED: float = 30.0
+const CLIMB_UP_COST: float = 100.0 / 2.2
+const CLIMB_STILL_COST: float = 100.0 / 10.0
+
 
 #endregion
 
@@ -56,11 +69,20 @@ var var_jump_speed: float
 var var_jump_timer: float
 var force_move_x: int
 var force_move_x_timer: float
+var hop_wait_x: int
+var hop_wait_x_speed: int
 
 var wall_slide_timer: float = WALL_SLIDE_TIME
 var wall_slide_dir: int 
 var climb_no_move_timer: float
+var wall_boost_dir: int
+var wall_boost_timer: float
+var last_climb_move: int
 
+var dashes: int
+var last_aim: Vector2
+var dash_cooldown_timer: float
+var dash_refill_cooldown_timer: float
 #endregion
 
 #region States
@@ -81,9 +103,6 @@ var current_state: State
 
 func _enter_tree():
 	current_state = normal_state
-
-func _process(delta):
-	queue_redraw()
 
 func _unhandled_input(event):
 	if current_state:
@@ -121,8 +140,38 @@ func _physics_process(delta):
 		move_x = force_move_x
 	else:
 		move_x = input_move_x
+	
 	# facing
-	facing = move_x if move_x != 0 else facing
+	# NOTE: in control?
+	if move_x != 0 and current_state != climb_state: 
+		facing = move_x
+	
+	# climb hop wait
+	if hop_wait_x != 0:
+		if signf(velocity.x) == -hop_wait_x or velocity.y > 0:
+			hop_wait_x = 0
+		elif not collide_check(Vector2((HALF_WIDTH + 0.5) * hop_wait_x, 6)):
+			velocity.x = hop_wait_x_speed
+			hop_wait_x = 0
+	
+	# wall slide
+	if wall_slide_dir != 0:
+		wall_slide_timer = maxf(wall_slide_timer - delta, 0)
+		wall_slide_dir = 0
+	
+	
+	# wall boost
+	if wall_boost_timer > 0:
+		wall_boost_timer -= delta
+		if move_x == wall_boost_dir:
+			velocity.x = WALL_JUMP_H_SPEED * move_x
+			stamina += CLIMB_JUMP_COST
+			wall_boost_timer = 0
+		
+	# refill to climb
+	if on_ground and current_state != climb_state:
+		stamina = CLIMB_MAX_STAMINA
+		wall_slide_timer = WALL_SLIDE_TIME
 	
 	# jump grace
 	if on_ground:
@@ -133,11 +182,6 @@ func _physics_process(delta):
 	# var jump
 	if var_jump_timer > 0:
 		var_jump_timer -= delta
-	
-	# wall slide
-	if wall_slide_dir != 0:
-		wall_slide_timer = maxf(wall_slide_timer - delta, 0)
-		wall_slide_dir = 0
 	
 	# update state
 	if current_state:
@@ -174,6 +218,30 @@ var is_tired: bool:
 	get:
 		return check_stamina < CLIMB_TIRED_THRESHOLD
 
+func climb_hop():
+	hop_wait_x = facing
+	hop_wait_x_speed = CLIMB_HOP_X * facing
+	
+	velocity.y = minf(velocity.y, CLIMB_HOP_Y)
+	force_move_x = 0
+	force_move_x_timer = CLIMB_HOP_FORCE_TIME
+
+#endregion
+
+#region DashState
+
+var can_dash: bool:
+	get:
+		return InputBuffer.is_action_press_buffered("dash") and\
+				dash_cooldown_timer <= 0 and dashes > 0
+
+func start_dash():
+	# NOTE: if having more dash?
+	dashes = 1
+	dashes = max(0, dashes - 1)
+	InputBuffer.comsume_action("dash")
+	change_state(dash_state)
+
 #endregion
 
 #region Ducking
@@ -205,8 +273,10 @@ func jump():
 	jump_grace_timer = 0
 	var_jump_timer = VAR_JUMP_TIME
 	wall_slide_timer = WALL_SLIDE_TIME
+	wall_boost_timer = 0
 	
 	velocity.y = JUMP_SPEED
+	velocity.x += JUMP_H_BOOST * move_x
 	var_jump_speed = velocity.y
 
 func wall_jump_check(dir: int) -> bool:
@@ -218,6 +288,7 @@ func wall_jump(dir: int):
 	jump_grace_timer = 0
 	var_jump_timer = VAR_JUMP_TIME
 	wall_slide_timer = WALL_SLIDE_TIME
+	wall_boost_timer = 0
 	
 	if move_x != 0:
 		force_move_x = dir
@@ -230,6 +301,17 @@ func wall_jump(dir: int):
 	var_jump_speed = JUMP_SPEED
 	
 	#NOTE: effect
+
+func climb_jump():
+	if not on_ground:
+		stamina -= CLIMB_JUMP_COST
+	jump()
+	
+	if move_x == 0:
+		wall_boost_dir = -facing
+		wall_boost_timer = CLIMB_JUMP_BOOST_TIME
+	
+	
 #endregion
 
 func collide_check(target: Vector2) -> bool:
@@ -239,7 +321,6 @@ func collide_check(target: Vector2) -> bool:
 	var result = space_state.intersect_ray(query)
 	return not result.is_empty()
 	
-	
-	
+	PhysicsShapeQueryParameters2D
 	
 	

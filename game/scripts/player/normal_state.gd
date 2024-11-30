@@ -18,7 +18,6 @@ func _update(player: Player, delta: float):
 	if (Input.is_action_pressed("grab") and not player.is_tired and not player.ducking):
 		if player.velocity.y >= 0 and sign(player.velocity.x) != -player.facing:
 			if player.climb_check(player.facing):
-				print("try climb")
 				player.ducking = false
 				player.change_state(player.climb_state)
 			
@@ -92,17 +91,27 @@ func _update(player: Player, delta: float):
 		else:
 			player.var_jump_timer = 0
 	
-	# Jump
+	# Jumping
 	if InputBuffer.is_action_press_buffered("jump"):
 		if player.jump_grace_timer > 0:
 			player.jump()
 		elif(player.can_un_duck):
 			# NOTE: ClimbJump, SupperWallJump?
-			if player.wall_jump_check(-1):
-				player.wall_jump(1)
-			elif player.wall_jump_check(1):
-				player.wall_jump(-1)
+			if player.wall_jump_check(1):
+				if player.facing == 1 and\
+						Input.is_action_pressed("grab") and\
+						player.stamina > 0:
+					player.climb_jump()
+				else:
+					player.wall_jump(-1)
+			elif player.wall_jump_check(-1):
+				if player.facing == -1 and\
+						Input.is_action_pressed("grab") and\
+						player.stamina > 0:
+					player.climb_jump()
+				else:
+					player.wall_jump(1)
 
 	#endregion
 func _exit(player: Player):
-	pass
+	player.hop_wait_x = 0
