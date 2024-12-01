@@ -1,7 +1,7 @@
 class_name Player
 extends CharacterBody2D
 
-@export var sprite: Sprite2D
+@onready var sprite = $Sprite as Sprite2D
 
 #region Constants
 const HALF_WIDTH: int = 4
@@ -119,9 +119,11 @@ var current_state: State
 func _enter_tree():
 	current_state = normal_state
 
+
 func _unhandled_input(event):
 	if current_state:
 		current_state._handle_input(self, event)
+
 
 func _physics_process(delta):
 	# input_move_x
@@ -222,12 +224,15 @@ func _physics_process(delta):
 		correct_up_corner()
 	# move
 	move_and_slide()
+	sprite.scale.x = facing
+
 
 func change_state(new_state: State):
 	if current_state:
 		current_state._exit(self)
 	current_state = new_state
 	current_state._enter(self)
+
 
 #region NormalState
 

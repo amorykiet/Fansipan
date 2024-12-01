@@ -25,9 +25,6 @@ collision_mask = 2
 script = ExtResource("1_0s8a0")
 
 [node name="Sprite" type="Sprite2D" parent="."]
-visible = false
-modulate = Color(0.336285, 0.653956, 0.835309, 1)
-position = Vector2(-1, 0)
 texture = SubResource("CompressedTexture2D_re164")
 region_enabled = true
 region_rect = Rect2(0, 0, 32, 32)
