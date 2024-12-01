@@ -5,7 +5,8 @@ extends CharacterBody2D
 
 #region Constants
 const HALF_WIDTH: int = 4
-const HEAD_HEIGHT: int = 5
+const HEAD_HEIGHT: int = 6
+const FOOT_HEIGHT: int = 6
 
 const MAX_FALL: float = 160.0
 const GRAVITY: float = 900.0
@@ -22,6 +23,8 @@ const JUMP_SPEED: float = -105.0
 const JUMP_GRACE_TIME: float = 0.1
 const VAR_JUMP_TIME: float = 0.2
 const JUMP_H_BOOST: float = 40.0
+const CELLING_VAR_JUMP_GRACE: float = 0.05
+const UPWARD_CORNER_CORRECTION: int = 4
 
 const WALL_JUMP_CHECK_DIST: int = 3
 const WALL_JUMP_FORCE_TIME: float = 0.16
@@ -86,7 +89,7 @@ var wall_boost_dir: int
 var wall_boost_timer: float
 var last_climb_move: int
 
-var dashes: int
+var dashes: int = 1
 var last_aim: Vector2
 var dash_cooldown_timer: float
 var dash_refill_cooldown_timer: float
@@ -112,6 +115,7 @@ var current_state: State
 @onready var unduck_check_box = $UnduckCheckBox as Area2D
 #endregion
 
+
 func _enter_tree():
 	current_state = normal_state
 
@@ -120,7 +124,6 @@ func _unhandled_input(event):
 		current_state._handle_input(self, event)
 
 func _physics_process(delta):
-	# TODO
 	# input_move_x
 	if Input.is_action_just_pressed("ui_right"):
 		input_move_x = 1
@@ -206,14 +209,20 @@ func _physics_process(delta):
 	# var jump
 	if var_jump_timer > 0:
 		var_jump_timer -= delta
+
 	
 	# update state
 	if current_state:
 		current_state._update(self, delta)
 	
+	# NOTE: correct up corner
+	if not collide_check(Vector2.UP * HEAD_HEIGHT) and(\
+			collide_check(Vector2(HALF_WIDTH, -HEAD_HEIGHT)) or\
+			collide_check(Vector2(-HALF_WIDTH, -HEAD_HEIGHT))):
+		correct_up_corner()
+	# move
 	move_and_slide()
-	move_and_collide(velocity * delta, true)
-	
+
 func change_state(new_state: State):
 	if current_state:
 		current_state._exit(self)
@@ -225,6 +234,7 @@ func change_state(new_state: State):
 var on_ground: bool:
 	get:
 		return is_on_floor()
+			
 
 # NOTE: climb bounds check
 func climb_check(dir: int, y_add: int = 0) -> bool:
@@ -246,7 +256,6 @@ var is_tired: bool:
 func climb_hop():
 	hop_wait_x = facing
 	hop_wait_x_speed = CLIMB_HOP_X * facing
-	
 	velocity.y = minf(velocity.y, CLIMB_HOP_Y)
 	force_move_x = 0
 	force_move_x_timer = CLIMB_HOP_FORCE_TIME
@@ -270,6 +279,28 @@ func start_dash():
 	dashes = max(0, dashes - 1)
 	InputBuffer.comsume_action("dash")
 	change_state(dash_state)
+
+func correct_h_dash():
+	var x_ : float = (HALF_WIDTH + 1) * sign(dash_dir.x)
+	if not collide_check(Vector2(x_, 0)):
+		# snap above
+		if collide_check(Vector2(x_, FOOT_HEIGHT)):
+			for i in range(1, FOOT_HEIGHT + 1):
+				var dir:= Vector2(x_, FOOT_HEIGHT - i)
+				if not collide_check(dir):
+					position.y -= i + 0.5
+					position.x += sign(dash_dir.x)
+					return
+		# snap below
+		elif collide_check(Vector2(x_ , - HEAD_HEIGHT)):
+			for i in range(1, HEAD_HEIGHT + 1,):
+				var dir:= Vector2(x_, - HEAD_HEIGHT + i)
+				if not collide_check(dir):
+					if i >= 5:
+						return
+					position.y += i + 0.5
+					position.x += sign(dash_dir.x)
+					return
 
 #endregion
 
@@ -343,13 +374,29 @@ func climb_jump():
 	
 #endregion
 
-func collide_check(target: Vector2, layer_mask: int = LayerNames.PHYSICS_2D.SOLID_FOREGROUND) -> bool:
+#region Physic
+
+func collide_check(target: Vector2, layer_mask: int = LayerNames.PHYSICS_2D.SOLID_FOREGROUND, position_: Vector2 = global_position) -> bool:
 	var space_state = get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(global_position, global_position + target, layer_mask)
+	var query = PhysicsRayQueryParameters2D.create(position_, position_ + target, layer_mask)
 	query.exclude = [self]
 	var result = space_state.intersect_ray(query)
 	return not result.is_empty()
+
+func correct_up_corner():
+	if velocity.y < 0 and current_state != dash_state:
+		if velocity.x <= 0 and not collide_check(Vector2(-HALF_WIDTH, - HEAD_HEIGHT)):
+			for i in range(UPWARD_CORNER_CORRECTION):
+				if collide_check(Vector2(HALF_WIDTH - i, - HEAD_HEIGHT)):
+					position.x -= i + 0.5
+					position.y -= 1
+		elif velocity.x >= 0 and not collide_check(Vector2(HALF_WIDTH, - HEAD_HEIGHT)):
+			for i in range(UPWARD_CORNER_CORRECTION):
+				if collide_check(Vector2(i - HALF_WIDTH, - HEAD_HEIGHT)):
+					position.x += i + 0.5
+					position.y -= 1
 	
-	PhysicsShapeQueryParameters2D
-	
-	
+	if(var_jump_timer < VAR_JUMP_TIME - CELLING_VAR_JUMP_GRACE):
+		var_jump_timer = 0
+
+#endregion

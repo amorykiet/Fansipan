@@ -23,17 +23,18 @@ region_enabled = true
 region_rect = Rect2(0, 0, 32, 32)
 
 [node name="ForegroundWorld" type="SubViewportContainer" parent="."]
-offset_right = 320.0
-offset_bottom = 180.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(4, 4)
 
 [node name="WorldViewport" type="SubViewport" parent="ForegroundWorld"]
 transparent_bg = true
 handle_input_locally = false
-snap_2d_transforms_to_pixel = true
 canvas_item_default_texture_filter = 0
 size = Vector2i(320, 180)
-size_2d_override = Vector2i(640, 360)
 render_target_update_mode = 4
 
 [node name="World" parent="ForegroundWorld/WorldViewport" instance=ExtResource("1_lc880")]
@@ -41,8 +42,10 @@ render_target_update_mode = 4
 [node name="Delta" parent="ForegroundWorld/WorldViewport/World" index="0" node_paths=PackedStringArray("sprite")]
 sprite = NodePath("../../../../PlayerSprite")
 
+[node name="WorldCamera2D" type="Camera2D" parent="ForegroundWorld/WorldViewport/World/Delta" index="7"]
+enabled = false
+
 [node name="Label" type="Label" parent="."]
-visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -50,7 +53,7 @@ offset_left = -144.0
 offset_right = 144.0
 offset_bottom = 72.0
 grow_horizontal = 2
-text = "What the f"
+text = "Fasipan"
 label_settings = SubResource("LabelSettings_etong")
 horizontal_alignment = 1
 vertical_alignment = 1
