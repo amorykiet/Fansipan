@@ -17,12 +17,17 @@ config/features=PackedStringArray("4.3", "Mobile")
 [autoload]
 
 InputBuffer="*res://game/scripts/input_buffer.gd"
+LayerNames="*res://addons/layerNames/layerNames.gd"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/layerNames/plugin.cfg")
 
 [input]
 
@@ -44,10 +49,12 @@ grab={
 
 [layer_names]
 
-2d_physics/layer_1="PlayerCollsion"
-2d_physics/layer_2="Foreground"
-2d_physics/layer_3="PlayerHurtbox"
+2d_physics/layer_1="Player Collsion"
+2d_physics/layer_2="Solid Foreground"
+2d_physics/layer_3="Player Hurtbox"
 2d_physics/layer_4="Deadzone"
+2d_physics/layer_5="Semi-Solid Foreground"
+2d_physics/layer_6="Collide Check"
 
 [rendering]
 

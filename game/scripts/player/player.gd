@@ -212,6 +212,7 @@ func _physics_process(delta):
 		current_state._update(self, delta)
 	
 	move_and_slide()
+	move_and_collide(velocity * delta, true)
 	
 func change_state(new_state: State):
 	if current_state:
@@ -342,9 +343,9 @@ func climb_jump():
 	
 #endregion
 
-func collide_check(target: Vector2) -> bool:
+func collide_check(target: Vector2, layer_mask: int = LayerNames.PHYSICS_2D.SOLID_FOREGROUND) -> bool:
 	var space_state = get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(global_position, global_position + target)
+	var query = PhysicsRayQueryParameters2D.create(global_position, global_position + target, layer_mask)
 	query.exclude = [self]
 	var result = space_state.intersect_ray(query)
 	return not result.is_empty()
