@@ -1,20 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://c40os65l3hn38"]
+[gd_scene load_steps=6 format=3 uid="uid://c40os65l3hn38"]
 
 [ext_resource type="Script" path="res://game/scripts/game.gd" id="1_e3me7"]
 [ext_resource type="PackedScene" uid="uid://m4cf5e35e821" path="res://game/scenes/world.tscn" id="1_lc880"]
+[ext_resource type="Shader" path="res://asset/shader/pixel_perfect_camera.gdshader" id="2_oqejd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_crmh6"]
+shader = ExtResource("2_oqejd")
+shader_parameter/cam_offset = Vector2(0, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_etong"]
 font_size = 32
 
-[node name="Game" type="Node"]
+[node name="Game" type="Node2D"]
 script = ExtResource("1_e3me7")
 
 [node name="ForegroundWorld" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_crmh6")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -958.0
-offset_bottom = -538.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 318.0
+offset_bottom = 178.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(4, 4)
@@ -22,18 +30,23 @@ scale = Vector2(4, 4)
 [node name="WorldViewport" type="SubViewport" parent="ForegroundWorld"]
 transparent_bg = true
 handle_input_locally = false
+snap_2d_transforms_to_pixel = true
 canvas_item_default_texture_filter = 0
-size = Vector2i(320, 180)
+size = Vector2i(322, 182)
 render_target_update_mode = 4
 
 [node name="World" parent="ForegroundWorld/WorldViewport" instance=ExtResource("1_lc880")]
+
+[node name="GameplayCamera" parent="ForegroundWorld/WorldViewport/World" index="0"]
+editor_draw_limits = true
+editor_draw_drag_margin = true
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -144.0
-offset_right = 144.0
+offset_left = 496.0
+offset_right = 784.0
 offset_bottom = 72.0
 grow_horizontal = 2
 text = "Fasipan"

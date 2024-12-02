@@ -217,7 +217,7 @@ func _physics_process(delta):
 	if current_state:
 		current_state._update(self, delta)
 	
-	# NOTE: correct up corner
+	# correct up corner
 	if not collide_check(Vector2.UP * HEAD_HEIGHT) and(\
 			collide_check(Vector2(HALF_WIDTH, -HEAD_HEIGHT)) or\
 			collide_check(Vector2(-HALF_WIDTH, -HEAD_HEIGHT))):

@@ -26,25 +26,27 @@ func _handle_input(player: Player, event: InputEvent):
 
 func _update(player: Player, delta: float):
 	
-	# Collide horizontal
-	if player.collide_check(Vector2((player.HALF_WIDTH + 1) * sign(player.dash_dir.x), -player.HEAD_HEIGHT)) or\
-			player.collide_check(Vector2((player.HALF_WIDTH + 1) * sign(player.dash_dir.x), player.FOOT_HEIGHT)) or\
-			player.collide_check(Vector2((player.HALF_WIDTH + 1) * sign(player.dash_dir.x), 0)):
-		if player.dash_dir.x != 0 and player.dash_dir.y == 0:
-			player.correct_h_dash()
-	
-	if player.dash_dir.y < 0:
-		if player.dash_dir.x <= 0 and not player.collide_check(Vector2(-player.HALF_WIDTH, - player.HEAD_HEIGHT - 2)):
-			for i in range(player.UPWARD_CORNER_CORRECTION):
-				if player.collide_check(Vector2(player.HALF_WIDTH - i, - player.HEAD_HEIGHT - 3)):
-					player.position.x -= i + 0.5
-					player.position.y -= 1
-		elif player.dash_dir.x >= 0 and not player.collide_check(Vector2(player.HALF_WIDTH, - player.HEAD_HEIGHT - 2)):
-			for i in range(player.UPWARD_CORNER_CORRECTION):
-				if player.collide_check(Vector2(i - player.HALF_WIDTH, - player.HEAD_HEIGHT - 3)):
-					player.position.x += i + 0.5
-					player.position.y -= 1
-	
+	## Collide horizontal
+	#if player.collide_check(Vector2((player.HALF_WIDTH + 1) * sign(player.dash_dir.x), -player.HEAD_HEIGHT)) or\
+			#player.collide_check(Vector2((player.HALF_WIDTH + 1) * sign(player.dash_dir.x), player.FOOT_HEIGHT)) or\
+			#player.collide_check(Vector2((player.HALF_WIDTH + 1) * sign(player.dash_dir.x), 0)):
+		#if player.dash_dir.x != 0 and player.dash_dir.y == 0:
+			#player.correct_h_dash()
+	#
+	## Collide vertical
+	#if player.dash_dir.y < 0:
+		#if player.dash_dir.x <= 0 and not player.collide_check(Vector2(-player.HALF_WIDTH, - player.HEAD_HEIGHT - 2)):
+			#for i in range(player.UPWARD_CORNER_CORRECTION):
+				#if player.collide_check(Vector2(player.HALF_WIDTH - i, - player.HEAD_HEIGHT - 3)):
+					#player.position.x -= i + 0.5
+					#player.position.y -= 1
+		#elif player.dash_dir.x >= 0 and not player.collide_check(Vector2(player.HALF_WIDTH, - player.HEAD_HEIGHT - 2)):
+			#for i in range(player.UPWARD_CORNER_CORRECTION):
+				#if player.collide_check(Vector2(i - player.HALF_WIDTH, - player.HEAD_HEIGHT - 3)):
+					#player.position.x += i + 0.5
+					#player.position.y -= 1
+	#
+	pass
 
 func _exit(player: Player):
 	pass
@@ -77,11 +79,12 @@ func dash_coroutine(player: Player):
 		player.ducking = true
 	await player.get_tree().create_timer(player.DASH_TIME).timeout
 	
-	if player.dash_dir.y <= 0:
-		player.velocity = player.dash_dir * player.END_DASH_SPEED
-	
-	if player.velocity.y > 0:
-		player.velocity.y *= player.END_DASH_UP_MULT
+	if not player.move_and_collide(player.dash_dir, true):
+		if player.dash_dir.y <= 0:
+			player.velocity = player.dash_dir * player.END_DASH_SPEED
+		
+		if player.velocity.y > 0:
+			player.velocity.y *= player.END_DASH_UP_MULT
 
 	player.change_state(player.normal_state)
 	

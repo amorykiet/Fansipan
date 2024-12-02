@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=4 uid="uid://m4cf5e35e821"]
+[gd_scene load_steps=12 format=4 uid="uid://m4cf5e35e821"]
 
 [ext_resource type="Script" path="res://game/scripts/world.gd" id="1_1l0ki"]
 [ext_resource type="PackedScene" uid="uid://bouliy1de7hlo" path="res://game/scenes/player.tscn" id="1_dbl4j"]
 [ext_resource type="Texture2D" uid="uid://cl2x7lxf38mbu" path="res://asset/foreground/ice_tileset.png" id="2_b2h6g"]
 [ext_resource type="Script" path="res://addons/dual_grid/TileMapDual.gd" id="2_fy34u"]
+[ext_resource type="Script" path="res://game/scripts/gameplay_camera.gd" id="3_2wogo"]
 [ext_resource type="Texture2D" uid="uid://clfca1j3hmj6h" path="res://asset/foreground/bridge.png" id="5_1si4o"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rwx1w"]
@@ -83,6 +84,10 @@ sources/0 = SubResource("TileSetAtlasSource_rqsi4")
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_1l0ki")
+
+[node name="GameplayCamera" type="Camera2D" parent="."]
+position = Vector2(105, 7)
+script = ExtResource("3_2wogo")
 
 [node name="Delta" parent="." instance=ExtResource("1_dbl4j")]
 position = Vector2(105, 7)
