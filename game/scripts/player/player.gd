@@ -228,8 +228,9 @@ func _physics_process(delta):
 	# move
 	move_and_slide()
 	sprite.scale.x = facing
-	#sprite.global_position.y = ceil(global_position.y)
-	#sprite.global_position = global_position.ceil()
+	sprite.global_position.y = ceil(global_position.y)
+	sprite.global_position.x = round(global_position.x)
+
 
 func change_state(new_state: State):
 	if current_state:
