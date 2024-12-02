@@ -5,7 +5,7 @@ extends CharacterBody2D
 
 #region Constants
 const HALF_WIDTH: int = 4
-const HEAD_HEIGHT: int = 6
+const HEAD_HEIGHT: int = 5
 const FOOT_HEIGHT: int = 6
 
 const MAX_FALL: float = 160.0
@@ -95,7 +95,9 @@ var dash_cooldown_timer: float
 var dash_refill_cooldown_timer: float
 var dash_started_on_ground: bool
 var before_dash_speed: Vector2
+var lastest_dash_speed: Vector2
 var dash_dir: Vector2
+var collision_on_dash: KinematicCollision2D
 
 #endregion
 
@@ -218,10 +220,11 @@ func _physics_process(delta):
 		current_state._update(self, delta)
 	
 	# correct up corner
-	if not collide_check(Vector2.UP * HEAD_HEIGHT) and(\
-			collide_check(Vector2(HALF_WIDTH, -HEAD_HEIGHT)) or\
-			collide_check(Vector2(-HALF_WIDTH, -HEAD_HEIGHT))):
+	if not collide_check(Vector2.UP * (HEAD_HEIGHT + 1)) and(\
+			collide_check(Vector2(HALF_WIDTH, -(HEAD_HEIGHT + 1))) or\
+			collide_check(Vector2(-HALF_WIDTH, -(HEAD_HEIGHT + 1)))):
 		correct_up_corner()
+		
 	# move
 	move_and_slide()
 	sprite.scale.x = facing
@@ -285,27 +288,44 @@ func start_dash():
 	InputBuffer.comsume_action("dash")
 	change_state(dash_state)
 
+
 func correct_h_dash():
+	print("correct h")
 	var x_ : float = (HALF_WIDTH + 1) * sign(dash_dir.x)
-	if not collide_check(Vector2(x_, 0)):
-		# snap above
-		if collide_check(Vector2(x_, FOOT_HEIGHT)):
-			for i in range(1, FOOT_HEIGHT + 1):
-				var dir:= Vector2(x_, FOOT_HEIGHT - i)
-				if not collide_check(dir):
-					position.y -= i + 0.5
-					position.x += sign(dash_dir.x)
-					return
-		# snap below
-		elif collide_check(Vector2(x_ , - HEAD_HEIGHT)):
-			for i in range(1, HEAD_HEIGHT + 1,):
-				var dir:= Vector2(x_, - HEAD_HEIGHT + i)
-				if not collide_check(dir):
-					if i >= 5:
-						return
-					position.y += i + 0.5
-					position.x += sign(dash_dir.x)
-					return
+	# snap above
+	if collide_check(Vector2(x_, FOOT_HEIGHT)):
+		for i in range(1, FOOT_HEIGHT + 1):
+			if not collide_check(Vector2(x_, FOOT_HEIGHT - i)):
+				position.y -= i
+				position.x += sign(dash_dir.x)
+				velocity = lastest_dash_speed
+				return
+	# snap below
+	elif collide_check(Vector2(x_ , - HEAD_HEIGHT)):
+		for i in range(1, HEAD_HEIGHT + 1,):
+			if not collide_check(Vector2(x_, - HEAD_HEIGHT + i)):
+				position.y += i
+				position.x += sign(dash_dir.x)
+				velocity = lastest_dash_speed
+				return
+
+func correct_up_dash():
+	if velocity.x <= 0 and collide_check(Vector2(HALF_WIDTH, - HEAD_HEIGHT - 1)):
+		for i in range(1, UPWARD_CORNER_CORRECTION + 1):
+			if not collide_check(Vector2(HALF_WIDTH - i, - HEAD_HEIGHT - 1)):
+				position.x -= i
+				position.y -= 1
+				velocity = lastest_dash_speed
+				print("to left correction")
+				break
+	if velocity.x >= 0 and collide_check(Vector2(-HALF_WIDTH, - HEAD_HEIGHT - 1)):
+		for i in range(1, UPWARD_CORNER_CORRECTION + 1):
+			if not collide_check(Vector2(i - HALF_WIDTH, - HEAD_HEIGHT - 1)):
+				position.x += i
+				position.y -= 1
+				velocity = lastest_dash_speed
+				print("to right correction")
+				break
 
 #endregion
 
@@ -390,15 +410,15 @@ func collide_check(target: Vector2, layer_mask: int = LayerNames.PHYSICS_2D.SOLI
 
 func correct_up_corner():
 	if velocity.y < 0 and current_state != dash_state:
-		if velocity.x <= 0 and not collide_check(Vector2(-HALF_WIDTH, - HEAD_HEIGHT)):
+		if velocity.x <= 0 and not collide_check(Vector2(-HALF_WIDTH, - HEAD_HEIGHT - 1)):
 			for i in range(UPWARD_CORNER_CORRECTION):
-				if collide_check(Vector2(HALF_WIDTH - i, - HEAD_HEIGHT)):
-					position.x -= i + 0.5
+				if collide_check(Vector2(HALF_WIDTH - i, - HEAD_HEIGHT - 1)):
+					position.x -= i
 					position.y -= 1
-		elif velocity.x >= 0 and not collide_check(Vector2(HALF_WIDTH, - HEAD_HEIGHT)):
+		elif velocity.x >= 0 and not collide_check(Vector2(HALF_WIDTH, - HEAD_HEIGHT - 1)):
 			for i in range(UPWARD_CORNER_CORRECTION):
-				if collide_check(Vector2(i - HALF_WIDTH, - HEAD_HEIGHT)):
-					position.x += i + 0.5
+				if collide_check(Vector2(i - HALF_WIDTH, - HEAD_HEIGHT - 1)):
+					position.x += i
 					position.y -= 1
 	
 	if(var_jump_timer < VAR_JUMP_TIME - CELLING_VAR_JUMP_GRACE):
