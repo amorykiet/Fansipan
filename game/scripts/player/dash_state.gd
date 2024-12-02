@@ -43,7 +43,14 @@ func _exit(player: Player):
 	
 func dash_coroutine(player: Player):
 	await Engine.get_main_loop().physics_frame
-	var dir:= player.last_aim
+	
+	var dir: Vector2
+	dir.x = Input.get_axis("ui_left", "ui_right")
+	dir.y = Input.get_axis("ui_up", "ui_down")
+	dir = dir.normalized()
+	if dir == Vector2.ZERO:
+		dir = Vector2.RIGHT * player.facing
+	
 	player.lastest_dash_speed = dir * player.DASH_SPEED
 	
 	# Check more speed

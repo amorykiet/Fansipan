@@ -90,7 +90,6 @@ var wall_boost_timer: float
 var last_climb_move: int
 
 var dashes: int = 1
-var last_aim: Vector2
 var dash_cooldown_timer: float
 var dash_refill_cooldown_timer: float
 var dash_started_on_ground: bool
@@ -163,12 +162,6 @@ func _physics_process(delta):
 	# NOTE: in control?
 	if move_x != 0 and current_state != climb_state: 
 		facing = move_x
-	
-	# last_aim
-	if move_x == 0 and move_y == 0:
-		last_aim = Vector2.RIGHT * facing
-	else:
-		last_aim = Vector2(move_x, move_y).normalized()
 	
 	# climb hop wait
 	if hop_wait_x != 0:
