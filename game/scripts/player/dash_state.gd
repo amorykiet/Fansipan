@@ -25,8 +25,6 @@ func _handle_input(player: Player, event: InputEvent):
 
 
 func _update(player: Player, delta: float):
-	print(player.velocity)
-	
 	# hit wall
 	if player.dash_dir.x != 0 and player.velocity.x == 0 and\
 			not player.collide_check(Vector2.RIGHT * (player.HALF_WIDTH + 1) * player.dash_dir.x):
@@ -39,8 +37,6 @@ func _update(player: Player, delta: float):
 		player.correct_up_dash()
 
 func _exit(player: Player):
-	print(player.velocity)
-	print("exit---------------")
 	pass
 	# NOTE: prepare for cool thing
 	

@@ -1,7 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://bouliy1de7hlo"]
+[gd_scene load_steps=10 format=3 uid="uid://bouliy1de7hlo"]
 
 [ext_resource type="Script" path="res://game/scripts/player/player.gd" id="1_0s8a0"]
+[ext_resource type="Shader" path="res://game/scenes/smooth_pixel_movement.gdshader" id="2_cpaa5"]
 [ext_resource type="Script" path="res://game/scripts/player/dash_state.gd" id="2_yqa8m"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qgqo5"]
+shader = ExtResource("2_cpaa5")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_re164"]
 load_path = "res://.godot/imported/delta.png-caae2a1db31b7923eb6886cb44080a0b.ctex"
@@ -25,6 +29,8 @@ collision_mask = 2
 script = ExtResource("1_0s8a0")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 2
+material = SubResource("ShaderMaterial_qgqo5")
 texture = SubResource("CompressedTexture2D_re164")
 region_enabled = true
 region_rect = Rect2(0, 0, 32, 32)

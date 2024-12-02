@@ -228,7 +228,8 @@ func _physics_process(delta):
 	# move
 	move_and_slide()
 	sprite.scale.x = facing
-
+	#sprite.global_position.y = ceil(global_position.y)
+	#sprite.global_position = global_position.ceil()
 
 func change_state(new_state: State):
 	if current_state:
@@ -290,7 +291,6 @@ func start_dash():
 
 
 func correct_h_dash():
-	print("correct h")
 	var x_ : float = (HALF_WIDTH + 1) * sign(dash_dir.x)
 	# snap above
 	if collide_check(Vector2(x_, FOOT_HEIGHT)):
@@ -316,7 +316,6 @@ func correct_up_dash():
 				position.x -= i
 				position.y -= 1
 				velocity = lastest_dash_speed
-				print("to left correction")
 				break
 	if velocity.x >= 0 and collide_check(Vector2(-HALF_WIDTH, - HEAD_HEIGHT - 1)):
 		for i in range(1, UPWARD_CORNER_CORRECTION + 1):
@@ -324,7 +323,6 @@ func correct_up_dash():
 				position.x += i
 				position.y -= 1
 				velocity = lastest_dash_speed
-				print("to right correction")
 				break
 
 #endregion
