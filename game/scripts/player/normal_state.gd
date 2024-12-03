@@ -5,7 +5,6 @@ extends State
 func _enter(player: Player):
 	player.max_fall = player.MAX_FALL
 
-
 func _handle_input(player: Player, event: InputEvent):
 	pass
 

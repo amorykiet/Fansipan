@@ -45,7 +45,7 @@ shape = SubResource("RectangleShape2D_nusw8")
 debug_color = Color(0.909335, 0.265106, 0.360163, 0.42)
 
 [node name="DuckHurtbox" type="Area2D" parent="."]
-collision_layer = 8
+collision_layer = 4
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DuckHurtbox"]
@@ -60,3 +60,6 @@ collision_mask = 2
 [node name="NormalCollision" type="CollisionShape2D" parent="UnduckCheckBox"]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_5tw5p")
+
+[connection signal="body_entered" from="NormalHurtbox" to="." method="_on_collide_hurt"]
+[connection signal="body_entered" from="DuckHurtbox" to="." method="_on_collide_hurt"]

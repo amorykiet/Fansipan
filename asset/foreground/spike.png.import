@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cl2x7lxf38mbu"
-path="res://.godot/imported/ice_tileset.png-6e7dc7c5c86507036bb5792f57b0d739.ctex"
+uid="uid://dwavwq612b2vo"
+path="res://.godot/imported/spike.png-4537f84fed7a175e3f31bd391caf719b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://asset/foreground/ice_tileset.png"
-dest_files=["res://.godot/imported/ice_tileset.png-6e7dc7c5c86507036bb5792f57b0d739.ctex"]
+source_file="res://asset/foreground/spike.png"
+dest_files=["res://.godot/imported/spike.png-4537f84fed7a175e3f31bd391caf719b.ctex"]
 
 [params]
 
@@ -25,7 +25,7 @@ mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
-process/fix_alpha_border=false
+process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false

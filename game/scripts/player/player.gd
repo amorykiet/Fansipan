@@ -64,8 +64,8 @@ const DODGE_SLIDE_SPEED_MULT: float = 1.2
 #endregion
 
 #region Variables
-var stamina: float = CLIMB_MAX_STAMINA
 
+var stamina: float = CLIMB_MAX_STAMINA
 var max_fall: float
 
 var facing: int = 1
@@ -100,6 +100,11 @@ var collision_on_dash: KinematicCollision2D
 
 #endregion
 
+#region Get/Set
+var deaded: float = false
+
+#endregion
+
 #region States
 static var normal_state:= NormalState.new()
 static var climb_state:= ClimbState.new()
@@ -115,9 +120,13 @@ var current_state: State
 @onready var duck_hurtbox = $DuckHurtbox/CollisionShape2D as CollisionShape2D
 @onready var unduck_check_box = $UnduckCheckBox as Area2D
 
-
 func _enter_tree():
 	current_state = normal_state
+
+
+func _ready():
+	# NOTE: should set by manager
+	ducking = false
 
 
 func _unhandled_input(event):
@@ -126,6 +135,8 @@ func _unhandled_input(event):
 
 
 func _physics_process(delta):
+	if deaded:
+		return
 	# input_move_x
 	if Input.is_action_just_pressed("ui_right"):
 		input_move_x = 1
@@ -221,7 +232,7 @@ func _physics_process(delta):
 	move_and_slide()
 	sprite.scale.x = facing
 	sprite.global_position.y = ceil(global_position.y)
-	#sprite.global_position.x = floor(global_position.x)
+	#sprite.global_position.x = round(global_position.x)
 
 
 func change_state(new_state: State):
@@ -415,3 +426,8 @@ func correct_up_corner():
 		var_jump_timer = 0
 
 #endregion
+
+
+func _on_collide_hurt(collision: Node2D):
+	deaded = true
+	pass
