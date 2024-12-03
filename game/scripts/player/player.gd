@@ -114,7 +114,6 @@ var current_state: State
 @onready var normal_hurtbox = $NormalHurtbox/CollisionShape2D as CollisionShape2D
 @onready var duck_hurtbox = $DuckHurtbox/CollisionShape2D as CollisionShape2D
 @onready var unduck_check_box = $UnduckCheckBox as Area2D
-#endregion
 
 
 func _enter_tree():
@@ -222,7 +221,7 @@ func _physics_process(delta):
 	move_and_slide()
 	sprite.scale.x = facing
 	sprite.global_position.y = ceil(global_position.y)
-	sprite.global_position.x = round(global_position.x)
+	#sprite.global_position.x = floor(global_position.x)
 
 
 func change_state(new_state: State):
@@ -269,7 +268,7 @@ func climb_hop():
 
 var can_dash: bool:
 	get:
-		return InputBuffer.is_action_press_buffered("dash") and\
+		return Input.is_action_just_pressed("dash") and\
 				dash_cooldown_timer <= 0 and dashes > 0
 
 func refill_dash():

@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://bouliy1de7hlo"]
+[gd_scene load_steps=7 format=3 uid="uid://bouliy1de7hlo"]
 
 [ext_resource type="Script" path="res://game/scripts/player/player.gd" id="1_0s8a0"]
-[ext_resource type="Script" path="res://game/scripts/player/dash_state.gd" id="2_yqa8m"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_re164"]
 load_path = "res://.godot/imported/delta.png-caae2a1db31b7923eb6886cb44080a0b.ctex"
@@ -20,7 +19,6 @@ size = Vector2(8, 9)
 size = Vector2(8, 4)
 
 [node name="Player" type="CharacterBody2D"]
-texture_filter = 1
 collision_mask = 2
 script = ExtResource("1_0s8a0")
 
@@ -62,6 +60,3 @@ collision_mask = 2
 [node name="NormalCollision" type="CollisionShape2D" parent="UnduckCheckBox"]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_5tw5p")
-
-[node name="DashState" type="Node" parent="."]
-script = ExtResource("2_yqa8m")
