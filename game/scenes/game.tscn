@@ -14,7 +14,7 @@ font_size = 32
 [node name="Game" type="Node2D"]
 script = ExtResource("1_e3me7")
 
-[node name="ForegroundWorld" type="SubViewportContainer" parent="."]
+[node name="WorldViewportContainer" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_crmh6")
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,7 +27,7 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(4, 4)
 
-[node name="WorldViewport" type="SubViewport" parent="ForegroundWorld"]
+[node name="WorldViewport" type="SubViewport" parent="WorldViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
 snap_2d_transforms_to_pixel = true
@@ -35,7 +35,7 @@ canvas_item_default_texture_filter = 0
 size = Vector2i(322, 182)
 render_target_update_mode = 4
 
-[node name="World" parent="ForegroundWorld/WorldViewport" instance=ExtResource("1_lc880")]
+[node name="World" parent="WorldViewportContainer/WorldViewport" instance=ExtResource("1_lc880")]
 
 [node name="Label" type="Label" parent="."]
 anchors_preset = 5
@@ -52,4 +52,4 @@ vertical_alignment = 1
 autowrap_mode = 1
 uppercase = true
 
-[editable path="ForegroundWorld/WorldViewport/World"]
+[editable path="WorldViewportContainer/WorldViewport/World"]

@@ -26,15 +26,12 @@ func _update(player: Player, delta: float):
 	# Ducking
 	if player.ducking:
 		if player.on_ground and player.move_y != 1:
-			# TODO: check can unduck and scale sprite
 			player.ducking = false
 	elif (player.on_ground and player.move_y == 1 and player.velocity.y >= 0):
 		player.ducking = true
-		# TODO: scale sprite
 	
 	
 	# Run and Friction
-	# TODO correct unduck
 	if player.ducking and player.on_ground:
 		player.velocity.x = move_toward(player.velocity.x, 0, player.DUCK_FRICTION * delta)
 	else:

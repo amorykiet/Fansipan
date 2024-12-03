@@ -236,7 +236,6 @@ func change_state(new_state: State):
 var on_ground: bool:
 	get:
 		return is_on_floor()
-			
 
 # NOTE: climb bounds check
 func climb_check(dir: int, y_add: int = 0) -> bool:
