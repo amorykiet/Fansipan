@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.3", "Mobile")
 InputBuffer="*res://game/scripts/Manager/input_buffer.gd"
 LayerNames="*res://addons/layerNames/layerNames.gd"
 Constants="*res://game/scripts/constants.gd"
+WorldViewportContainer="*res://game/scripts/Manager/world_viewport_container.gd"
 
 [display]
 
@@ -31,6 +32,14 @@ window/stretch/mode="canvas_items"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/layerNames/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://addons/": "gray",
+"res://asset/": "red",
+"res://game/": "purple"
+}
 
 [input]
 
