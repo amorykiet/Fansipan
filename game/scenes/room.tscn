@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cai52dmonwstk"]
 
-[ext_resource type="Script" path="res://game/scripts/Levels/room.gd" id="1_xb5tb"]
+[ext_resource type="Script" path="res://game/scripts/levels/room.gd" id="1_xb5tb"]
 [ext_resource type="Script" path="res://game/tools/boundary_tool.gd" id="2_nqr7m"]
 
 [node name="Room" type="Node2D"]

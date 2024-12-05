@@ -1,7 +1,8 @@
 class_name  GameplayCamera
 extends Camera2D
 
-var pixel_cam_shader_material: ShaderMaterial
+var viewport_shader: ShaderMaterial
+
 var target: Node2D
 var offset_: Vector2
 var smooth_speed: float = 10.0
@@ -12,7 +13,6 @@ var left_limit: int
 var right_limit: int
 
 func _ready():
-	pixel_cam_shader_material = WorldViewportContainer.material as ShaderMaterial
 	global_position = Vector2.ZERO
 	
 func _process(delta) -> void:
@@ -30,18 +30,21 @@ func _process(delta) -> void:
 			down_limit - Constants.WINDOW_SIZE.y/2)
 	new_pos = new_pos.floor() + Vector2.ONE
 	var temp_pos:= global_position
-	if temp_pos.distance_to(new_pos) > 0.5:
-		temp_pos = lerp(temp_pos, new_pos, smooth_speed * delta)
+	#if temp_pos.distance_to(new_pos) > 0.5:
+	temp_pos = lerp(temp_pos, new_pos, smooth_speed * delta)
+	#else:
+		#temp_pos = new_pos.round()
+		#print("ah")
 	global_position = temp_pos
 	
-	## smooth camera movement
 	var sub_pixel : Vector2 = Vector2(
 		global_position.round().x - global_position.x,
 		global_position.round().y - global_position.y
 		)
-	if pixel_cam_shader_material:
-		pixel_cam_shader_material.set_shader_parameter("cam_offset", sub_pixel)
-		
+	
+	if viewport_shader:
+		viewport_shader.set_shader_parameter("cam_offset", sub_pixel)
+
 func set_target(target_: Node2D, smooth_speed: float = 5.0, offset_: Vector2 = Vector2.ZERO) -> GameplayCamera:
 	self.offset_ = offset_
 	target = target_
@@ -54,3 +57,6 @@ func set_room_boundary(boundary_: Rect2i) -> GameplayCamera:
 	left_limit = boundary_.position.x
 	right_limit = boundary_.position.x + boundary_.size.x
 	return self
+
+func set_viewport_shader(shader: ShaderMaterial):
+	viewport_shader = shader

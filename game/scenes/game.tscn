@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c40os65l3hn38"]
+[gd_scene load_steps=6 format=3 uid="uid://c40os65l3hn38"]
 
-[ext_resource type="Script" path="res://game/scripts/Manager/game.gd" id="1_e3me7"]
 [ext_resource type="PackedScene" uid="uid://m4cf5e35e821" path="res://game/scenes/world.tscn" id="1_lc880"]
 [ext_resource type="Shader" path="res://asset/shader/pixel_perfect_camera.gdshader" id="2_oqejd"]
-[ext_resource type="Script" path="res://game/scripts/Manager/world_viewport_container.gd" id="3_5abj2"]
+[ext_resource type="Script" path="res://game/scripts/manager/world_viewport_container.gd" id="3_5abj2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_crmh6"]
 shader = ExtResource("2_oqejd")
@@ -13,7 +12,6 @@ shader_parameter/cam_offset = Vector2(0, 0)
 font_size = 32
 
 [node name="Game" type="Node2D"]
-script = ExtResource("1_e3me7")
 
 [node name="WorldViewportContainer" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_crmh6")
@@ -30,6 +28,7 @@ script = ExtResource("3_5abj2")
 [node name="WorldViewport" type="SubViewport" parent="WorldViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
+snap_2d_transforms_to_pixel = true
 canvas_item_default_texture_filter = 0
 size = Vector2i(322, 182)
 render_target_update_mode = 4
@@ -51,4 +50,4 @@ vertical_alignment = 1
 autowrap_mode = 1
 uppercase = true
 
-[editable path="WorldViewportContainer/WorldViewport/World"]
+[connection signal="camera_setted" from="WorldViewportContainer/WorldViewport/World" to="WorldViewportContainer" method="_on_world_camera_setted"]

@@ -16,10 +16,9 @@ config/features=PackedStringArray("4.3", "Mobile")
 
 [autoload]
 
-InputBuffer="*res://game/scripts/Manager/input_buffer.gd"
+InputBuffer="*res://game/scripts/manager/input_buffer.gd"
 LayerNames="*res://addons/layerNames/layerNames.gd"
 Constants="*res://game/scripts/constants.gd"
-WorldViewportContainer="*res://game/scripts/Manager/world_viewport_container.gd"
 
 [display]
 
