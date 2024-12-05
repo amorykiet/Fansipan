@@ -231,8 +231,6 @@ func _physics_process(delta):
 	# move
 	move_and_slide()
 	sprite.scale.x = facing
-	sprite.global_position.y = ceil(global_position.y)
-	#sprite.global_position.x = ceil(global_position.x)
 
 func change_state(new_state: State):
 	if current_state:
@@ -410,17 +408,18 @@ func collide_check(target: Vector2, layer_mask: int = LayerNames.PHYSICS_2D.SOLI
 
 func correct_up_corner():
 	if velocity.y < 0 and current_state != dash_state:
-		if velocity.x <= 0 and not collide_check(Vector2(-HALF_WIDTH, - HEAD_HEIGHT - 1)):
-			for i in range(UPWARD_CORNER_CORRECTION):
-				if collide_check(Vector2(HALF_WIDTH - i, - HEAD_HEIGHT - 1)):
+		if velocity.x <= 0 and collide_check(Vector2(HALF_WIDTH, - HEAD_HEIGHT - 1)):
+			for i in range(UPWARD_CORNER_CORRECTION + 1):
+				if not collide_check(Vector2(HALF_WIDTH - i, - HEAD_HEIGHT - 1)):
 					position.x -= i
 					position.y -= 1
-		elif velocity.x >= 0 and not collide_check(Vector2(HALF_WIDTH, - HEAD_HEIGHT - 1)):
-			for i in range(UPWARD_CORNER_CORRECTION):
-				if collide_check(Vector2(i - HALF_WIDTH, - HEAD_HEIGHT - 1)):
+					break
+		elif velocity.x >= 0 and collide_check(Vector2(-HALF_WIDTH, - HEAD_HEIGHT - 1)):
+			for i in range(UPWARD_CORNER_CORRECTION + 1):
+				if not collide_check(Vector2(i - HALF_WIDTH, - HEAD_HEIGHT - 1)):
 					position.x += i
 					position.y -= 1
-	
+					break
 	if(var_jump_timer < VAR_JUMP_TIME - CELLING_VAR_JUMP_GRACE):
 		var_jump_timer = 0
 
