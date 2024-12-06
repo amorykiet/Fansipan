@@ -36,9 +36,14 @@ enabled=PackedStringArray("res://addons/layerNames/plugin.cfg")
 
 folder_colors={
 "res://addons/": "gray",
-"res://asset/": "red",
+"res://asset/": "pink",
 "res://game/": "purple"
 }
+
+[global_group]
+
+CheckPoint=""
+Room=""
 
 [input]
 
@@ -66,6 +71,8 @@ grab={
 2d_physics/layer_4="Deadzone"
 2d_physics/layer_5="Semi-Solid Foreground"
 2d_physics/layer_6="Collide Check"
+2d_physics/layer_7="Checkpoint"
+2d_physics/layer_8="Room Area"
 
 [rendering]
 

@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgho0k7161dbe"]
+
+[ext_resource type="Script" path="res://game/scripts/levels/check_point.gd" id="1_ev6rj"]
+[ext_resource type="Texture2D" uid="uid://cgyguvgs0mltu" path="res://asset/character/delta.png" id="2_r5ius"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t5am2"]
+size = Vector2(16, 24)
+
+[node name="CheckPoint" type="Area2D" groups=["CheckPoint"]]
+position = Vector2(9, 106)
+collision_layer = 64
+script = ExtResource("1_ev6rj")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_r5ius")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_t5am2")
+
+[connection signal="body_entered" from="." to="." method="_on_player_entered"]

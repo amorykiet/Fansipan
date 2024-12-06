@@ -1,6 +1,8 @@
 class_name Player
 extends CharacterBody2D
 
+signal player_deaded
+
 @onready var sprite = $Sprite as Sprite2D
 
 #region Constants
@@ -428,4 +430,4 @@ func correct_up_corner():
 
 func _on_collide_hurt(collision: Node2D):
 	deaded = true
-	pass
+	emit_signal("player_deaded")

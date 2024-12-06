@@ -2,12 +2,12 @@
 extends Node2D
 
 @export var room: Room
-var drawing: bool = false
 
 func _draw():
-	if Engine.is_editor_hint() and not drawing:
+	if Engine.is_editor_hint():
 		draw_rect(room.boundary, Color.GREEN, false)
-
+		room.area.hide()
+		
 func _process(delta):
 	if Engine.is_editor_hint():
 		queue_redraw()
