@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bouliy1de7hlo"]
+[gd_scene load_steps=8 format=3 uid="uid://bouliy1de7hlo"]
 
 [ext_resource type="Script" path="res://game/scripts/player/player.gd" id="1_0s8a0"]
+[ext_resource type="Script" path="res://game/scenes/input_move.gd" id="2_ne7sh"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_re164"]
 load_path = "res://.godot/imported/delta.png-caae2a1db31b7923eb6886cb44080a0b.ctex"
@@ -60,6 +61,10 @@ collision_mask = 2
 [node name="NormalCollision" type="CollisionShape2D" parent="UnduckCheckBox"]
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_5tw5p")
+
+[node name="InputMove" type="Node2D" parent="."]
+process_mode = 3
+script = ExtResource("2_ne7sh")
 
 [connection signal="body_entered" from="NormalHurtbox" to="." method="_on_collide_hurt"]
 [connection signal="body_entered" from="DuckHurtbox" to="." method="_on_collide_hurt"]

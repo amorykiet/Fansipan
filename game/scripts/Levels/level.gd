@@ -27,6 +27,11 @@ func _ready():
 	gameplay_camera.set_room(start_room).set_target(player, 8)
 	gameplay_camera.enabled = true
 
+func _process(delta):
+	if get_tree().paused:
+		if not gameplay_camera.changing_room:
+			# player enter new room
+			get_tree().paused = false
 
 func set_new_checkpoint(pos: Vector2):
 	cur_checkpoint = pos
@@ -34,6 +39,22 @@ func set_new_checkpoint(pos: Vector2):
 func revive_player():
 	player.global_position = cur_checkpoint
 	player.deaded = false
+	#player.facing
 
 func set_new_room(new_room: Room):
 	gameplay_camera.set_room(new_room)
+	player.room = new_room
+	player.refill_full()
+	get_tree().paused = true
+	fit_player_to_room(new_room)
+
+func fit_player_to_room(room: Room):
+	var boundary_:= room.boundary
+	var up_limit:= boundary_.position.y + room.position.y + 11
+	var down_limit:= boundary_.position.y + boundary_.size.y + room.position.y - 30
+	var left_limit:= boundary_.position.x + room.position.x + player.HALF_WIDTH * 2
+	var right_limit:= boundary_.position.x + boundary_.size.x + room.position.x - player.HALF_WIDTH * 2
+	
+	player.global_position.x = clamp(player.global_position.x, left_limit, right_limit)
+	player.global_position.y = clamp(player.global_position.y, up_limit, down_limit)
+	

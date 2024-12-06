@@ -8,7 +8,7 @@ signal player_entered(room: Room)
 
 
 func _ready():
-	area.shape.size = boundary.size
+	area.shape.size = boundary.size - Vector2i.ONE
 	area.position = boundary.size/2
 
 func _on_room_area_body_entered(body: Node2D):

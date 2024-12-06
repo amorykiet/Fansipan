@@ -72,8 +72,7 @@ func dash_coroutine(player: Player):
 		player.velocity.y = 0
 		player.velocity.x *= player.DODGE_SLIDE_SPEED_MULT
 		player.ducking = true
-	await player.get_tree().create_timer(player.DASH_TIME).timeout
-	
+	await player.get_tree().create_timer(player.DASH_TIME, false, true).timeout
 	if not player.move_and_collide(player.dash_dir, true):
 		if player.dash_dir.y <= 0:
 			player.velocity = player.dash_dir * player.END_DASH_SPEED

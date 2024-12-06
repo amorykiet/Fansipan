@@ -4,6 +4,7 @@ extends CharacterBody2D
 signal player_deaded
 
 @onready var sprite = $Sprite as Sprite2D
+@onready var input_move = $InputMove as InputMove
 
 #region Constants
 const HALF_WIDTH: int = 4
@@ -66,6 +67,7 @@ const DODGE_SLIDE_SPEED_MULT: float = 1.2
 #endregion
 
 #region Variables
+var room: Room
 
 var stamina: float = CLIMB_MAX_STAMINA
 var max_fall: float
@@ -122,6 +124,8 @@ var current_state: State
 @onready var duck_hurtbox = $DuckHurtbox/CollisionShape2D as CollisionShape2D
 @onready var unduck_check_box = $UnduckCheckBox as Area2D
 
+#endregion
+
 func _enter_tree():
 	current_state = normal_state
 
@@ -135,35 +139,14 @@ func _unhandled_input(event):
 	if current_state:
 		current_state._handle_input(self, event)
 
-
 func _physics_process(delta):
+
 	if deaded:
 		return
-	# input_move_x
-	if Input.is_action_just_pressed("ui_right"):
-		input_move_x = 1
-	if Input.is_action_just_pressed("ui_left"):
-		input_move_x = -1
-	if Input.is_action_just_released("ui_left") and Input.is_action_pressed("ui_right"):
-		input_move_x = 1
-	if Input.is_action_just_released("ui_right") and Input.is_action_pressed("ui_left"):
-		input_move_x = -1
-	if not Input.is_action_pressed("ui_left") and not Input.is_action_pressed("ui_right"):
-		input_move_x = 0
 	
-	# move_y
-	if Input.is_action_just_pressed("ui_down"):
-		move_y = 1
-	if Input.is_action_just_pressed("ui_up"):
-		move_y = -1
-	if Input.is_action_just_released("ui_up") and Input.is_action_pressed("ui_down"):
-		move_y = 1
-	if Input.is_action_just_released("ui_down") and Input.is_action_pressed("ui_up"):
-		move_y = -1
-	if not Input.is_action_pressed("ui_down") and not Input.is_action_pressed("ui_up"):
-		move_y = 0
+	input_move_x = InputMove.input_move_x
+	move_y = InputMove.input_move_y
 	
-	# force move x
 	if force_move_x_timer > 0:
 		force_move_x_timer -= delta
 		move_x = force_move_x
@@ -171,7 +154,6 @@ func _physics_process(delta):
 		move_x = input_move_x
 	
 	# facing
-	# NOTE: in control?
 	if move_x != 0 and current_state != climb_state: 
 		facing = move_x
 	
@@ -234,6 +216,7 @@ func _physics_process(delta):
 	move_and_slide()
 	sprite.scale.x = facing
 
+
 func change_state(new_state: State):
 	if current_state:
 		current_state._exit(self)
@@ -283,6 +266,13 @@ var can_dash: bool:
 func refill_dash():
 	# NOTE: if having more dash?
 	dashes = 1
+
+func refill_stamina():
+	stamina = CLIMB_MAX_STAMINA
+
+func refill_full():
+	refill_dash()
+	refill_stamina()
 
 func start_dash():
 	# NOTE: if having more dash?
@@ -399,7 +389,7 @@ func climb_jump():
 	
 #endregion
 
-#region Physic
+#region Helper
 
 func collide_check(target: Vector2, layer_mask: int = LayerNames.PHYSICS_2D.SOLID_FOREGROUND, position_: Vector2 = global_position) -> bool:
 	var space_state = get_world_2d().direct_space_state
@@ -409,14 +399,14 @@ func collide_check(target: Vector2, layer_mask: int = LayerNames.PHYSICS_2D.SOLI
 	return not result.is_empty()
 
 func correct_up_corner():
-	if velocity.y < 0 and current_state != dash_state:
-		if velocity.x <= 0 and collide_check(Vector2(HALF_WIDTH, - HEAD_HEIGHT - 1)):
+	if velocity.y < 0 and current_state != dash_state and velocity.x == 0:
+		if collide_check(Vector2(HALF_WIDTH, - HEAD_HEIGHT - 1)):
 			for i in range(UPWARD_CORNER_CORRECTION + 1):
 				if not collide_check(Vector2(HALF_WIDTH - i, - HEAD_HEIGHT - 1)):
 					position.x -= i
 					position.y -= 1
 					break
-		elif velocity.x >= 0 and collide_check(Vector2(-HALF_WIDTH, - HEAD_HEIGHT - 1)):
+		elif collide_check(Vector2(-HALF_WIDTH, - HEAD_HEIGHT - 1)):
 			for i in range(UPWARD_CORNER_CORRECTION + 1):
 				if not collide_check(Vector2(i - HALF_WIDTH, - HEAD_HEIGHT - 1)):
 					position.x += i

@@ -12,6 +12,8 @@ var down_limit: int
 var left_limit: int
 var right_limit: int
 
+var changing_room: bool = false
+
 func _ready():
 	global_position = Vector2.ZERO
 	
@@ -30,10 +32,14 @@ func _process(delta) -> void:
 			down_limit - Constants.WINDOW_SIZE.y/2)
 	new_pos = new_pos + Vector2.ONE
 	var temp_pos:= global_position
-	if temp_pos.distance_to(new_pos) > 0.1:
+	if temp_pos.distance_to(new_pos) > 0.5:
 		temp_pos = lerp(temp_pos, new_pos, smooth_speed * delta)
 	else:
 		temp_pos = new_pos
+		if changing_room:
+			changing_room = false
+	
+	
 	global_position = temp_pos
 	
 	var sub_pixel : Vector2 = Vector2(
@@ -59,6 +65,7 @@ func set_room(room: Room) -> GameplayCamera:
 	down_limit = boundary_.position.y + boundary_.size.y + room.position.y
 	left_limit = boundary_.position.x + room.position.x
 	right_limit = boundary_.position.x + boundary_.size.x + room.position.x
+	changing_room = true
 	return self
 
 func set_smooth_speed(speed: float) -> GameplayCamera:
