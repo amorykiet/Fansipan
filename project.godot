@@ -73,6 +73,7 @@ grab={
 2d_physics/layer_6="Collide Check"
 2d_physics/layer_7="Checkpoint"
 2d_physics/layer_8="Room Area"
+2d_physics/layer_9="Crystal"
 
 [rendering]
 

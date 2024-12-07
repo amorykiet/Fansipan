@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://m4cf5e35e821"]
+[gd_scene load_steps=18 format=4 uid="uid://m4cf5e35e821"]
 
 [ext_resource type="PackedScene" uid="uid://bouliy1de7hlo" path="res://game/scenes/player.tscn" id="1_dbl4j"]
 [ext_resource type="Script" path="res://game/scripts/manager/world.gd" id="1_w8qdf"]
@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://cai52dmonwstk" path="res://game/scenes/room.tscn" id="7_ci6jt"]
 [ext_resource type="PackedScene" uid="uid://bgho0k7161dbe" path="res://game/scenes/check_point.tscn" id="9_o2i0y"]
 [ext_resource type="Script" path="res://game/tools/debug_tool.gd" id="9_pwxyg"]
+[ext_resource type="Texture2D" uid="uid://mfa77ylu5uei" path="res://asset/foreground/crystal.png" id="10_6t0kw"]
+[ext_resource type="Script" path="res://game/scenes/crystal.gd" id="10_q71tu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rqsi4"]
 texture = ExtResource("5_1si4o")
@@ -581,6 +583,9 @@ sources/0 = SubResource("TileSetAtlasSource_rqsi4")
 sources/1 = SubResource("TileSetAtlasSource_7lg4i")
 sources/4 = SubResource("TileSetAtlasSource_2fmdw")
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_ajr03"]
+radius = 5.0
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_w8qdf")
 
@@ -643,6 +648,19 @@ position = Vector2(867, 26)
 [node name="CheckPoint6" parent="Level/CheckPoints" instance=ExtResource("9_o2i0y")]
 position = Vector2(1194, -38)
 
+[node name="Crystal" type="Area2D" parent="Level"]
+position = Vector2(95, 78)
+collision_layer = 256
+script = ExtResource("10_q71tu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Crystal"]
+shape = SubResource("CircleShape2D_ajr03")
+
+[node name="Sprite2D" type="Sprite2D" parent="Level/Crystal"]
+texture = ExtResource("10_6t0kw")
+
 [node name="DebugTool" type="Node2D" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("9_pwxyg")
 player = NodePath("../Delta")
+
+[connection signal="body_entered" from="Level/Crystal" to="Level/Crystal" method="_on_body_entered"]

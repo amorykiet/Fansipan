@@ -415,9 +415,10 @@ func correct_up_corner():
 	if(var_jump_timer < VAR_JUMP_TIME - CELLING_VAR_JUMP_GRACE):
 		var_jump_timer = 0
 
-#endregion
-
 
 func _on_collide_hurt(collision: Node2D):
 	deaded = true
 	emit_signal("player_deaded")
+
+
+#endregion
