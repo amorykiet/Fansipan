@@ -1,8 +1,8 @@
-[gd_scene load_steps=18 format=4 uid="uid://m4cf5e35e821"]
+[gd_scene load_steps=16 format=4 uid="uid://m4cf5e35e821"]
 
 [ext_resource type="PackedScene" uid="uid://bouliy1de7hlo" path="res://game/scenes/player.tscn" id="1_dbl4j"]
 [ext_resource type="Script" path="res://game/scripts/manager/world.gd" id="1_w8qdf"]
-[ext_resource type="Script" path="res://game/scripts/manager/gameplay_camera.gd" id="3_2wogo"]
+[ext_resource type="PackedScene" uid="uid://btm4yn11hd86u" path="res://game/scenes/gameplay_camera.tscn" id="2_t6nnj"]
 [ext_resource type="Script" path="res://game/scripts/levels/level.gd" id="3_vldke"]
 [ext_resource type="Texture2D" uid="uid://clfca1j3hmj6h" path="res://asset/foreground/bridge.png" id="5_1si4o"]
 [ext_resource type="Texture2D" uid="uid://cr2cmkgfr8nvm" path="res://asset/foreground/snow.png" id="5_biiv6"]
@@ -10,8 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cai52dmonwstk" path="res://game/scenes/room.tscn" id="7_ci6jt"]
 [ext_resource type="PackedScene" uid="uid://bgho0k7161dbe" path="res://game/scenes/check_point.tscn" id="9_o2i0y"]
 [ext_resource type="Script" path="res://game/tools/debug_tool.gd" id="9_pwxyg"]
-[ext_resource type="Texture2D" uid="uid://mfa77ylu5uei" path="res://asset/foreground/crystal.png" id="10_6t0kw"]
-[ext_resource type="Script" path="res://game/scenes/crystal.gd" id="10_q71tu"]
+[ext_resource type="PackedScene" uid="uid://do306eh4bpw46" path="res://game/scenes/crystal.tscn" id="10_asicy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rqsi4"]
 texture = ExtResource("5_1si4o")
@@ -583,18 +582,10 @@ sources/0 = SubResource("TileSetAtlasSource_rqsi4")
 sources/1 = SubResource("TileSetAtlasSource_7lg4i")
 sources/4 = SubResource("TileSetAtlasSource_2fmdw")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ajr03"]
-radius = 5.0
-
 [node name="World" type="Node2D"]
 script = ExtResource("1_w8qdf")
 
-[node name="GameplayCamera" type="Camera2D" parent="."]
-process_mode = 3
-top_level = true
-position = Vector2(47, -126)
-enabled = false
-script = ExtResource("3_2wogo")
+[node name="GameplayCamera" parent="." instance=ExtResource("2_t6nnj")]
 
 [node name="Delta" parent="." instance=ExtResource("1_dbl4j")]
 position = Vector2(53, 77)
@@ -648,19 +639,8 @@ position = Vector2(867, 26)
 [node name="CheckPoint6" parent="Level/CheckPoints" instance=ExtResource("9_o2i0y")]
 position = Vector2(1194, -38)
 
-[node name="Crystal" type="Area2D" parent="Level"]
-position = Vector2(95, 78)
-collision_layer = 256
-script = ExtResource("10_q71tu")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Crystal"]
-shape = SubResource("CircleShape2D_ajr03")
-
-[node name="Sprite2D" type="Sprite2D" parent="Level/Crystal"]
-texture = ExtResource("10_6t0kw")
+[node name="Crystal" parent="Level" instance=ExtResource("10_asicy")]
 
 [node name="DebugTool" type="Node2D" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("9_pwxyg")
 player = NodePath("../Delta")
-
-[connection signal="body_entered" from="Level/Crystal" to="Level/Crystal" method="_on_body_entered"]
