@@ -2,9 +2,15 @@ class_name Player
 extends CharacterBody2D
 
 signal player_deaded
+@export var sprite: Sprite2D
+@export var ghost_trail_effect: GhostTrailEffect
 
-@onready var sprite = $Sprite as Sprite2D
+const dashable_sprite:= preload("res://asset/character/delta.png")
+const nodash_sprite:= preload("res://asset/character/deltablack.png")
+
 @onready var input_move = $InputMove as InputMove
+@onready var animation_player = $AnimationPlayer as AnimationPlayer
+@onready var dead_particle = $DeadParticles as GPUParticles2D
 
 #region Constants
 const HALF_WIDTH: int = 4
@@ -64,6 +70,8 @@ const END_DASH_SPEED: float = 160.0
 const END_DASH_UP_MULT: float = 0.75
 
 const DODGE_SLIDE_SPEED_MULT: float = 1.2
+
+const IDLE_CHANGE_TIME: float = 7.0
 #endregion
 
 #region Variables
@@ -102,10 +110,26 @@ var lastest_dash_speed: Vector2
 var dash_dir: Vector2
 var collision_on_dash: KinematicCollision2D
 
+var idle_change_timer: float
+var idle_anim_str: String = "idle" + str(randi_range(1,3))
+
 #endregion
 
 #region Get/Set
-var deaded: float = false
+var deaded: bool:
+	get:
+		return normal_collision.disabled and duck_collision.disabled
+	set(value):
+		if value:
+			normal_collision.set_deferred("disabled", true)
+			duck_collision.set_deferred("disabled", true)
+			sprite.hide()
+			refill_full()
+		else:
+			normal_collision.set_deferred("disabled", false)
+			duck_collision.set_deferred("disabled", false)
+			sprite.show()
+			
 
 #endregion
 
@@ -133,6 +157,7 @@ func _enter_tree():
 func _ready():
 	# NOTE: should set by manager
 	ducking = false
+	ghost_trail_effect.sprite = sprite
 
 
 func _unhandled_input(event):
@@ -215,6 +240,7 @@ func _physics_process(delta):
 	# move
 	move_and_slide()
 	sprite.scale.x = facing
+	render_animation(delta)
 
 
 func change_state(new_state: State):
@@ -222,6 +248,43 @@ func change_state(new_state: State):
 		current_state._exit(self)
 	current_state = new_state
 	current_state._enter(self)
+
+func render_animation(delta: float):
+	if dashes > 0 and sprite.texture != dashable_sprite:
+		sprite.texture = dashable_sprite
+	elif dashes <= 0 and sprite.texture != nodash_sprite:
+		sprite.texture = nodash_sprite
+	match current_state:
+		normal_state:
+			if on_ground:
+				if not ducking:
+					if velocity.x != 0:
+							change_anim("run")
+					else:
+						change_anim(idle_anim_str)
+						if idle_change_timer > 0:
+							idle_change_timer -= delta
+						else:
+							idle_change_timer = IDLE_CHANGE_TIME
+							idle_anim_str = "idle" + str(randi_range(1,3))
+				else:
+					change_anim("duck")
+			else:
+				if velocity.y < 0:
+					change_anim("jump_up")
+				else:
+					change_anim("fall")
+		climb_state:
+			if velocity.y >= 0:
+				change_anim("grab")
+			else:
+				change_anim("climb")
+		dash_state:
+			change_anim("air")
+
+func change_anim(anim: String):
+	if animation_player.current_animation != anim:
+		animation_player.play(anim)
 
 
 #region NormalState
@@ -320,20 +383,22 @@ func correct_up_dash():
 #endregion
 
 #region Ducking
-var ducking: bool:
-	get: 
-		return normal_collision.disabled or normal_hurtbox.disabled
-	set(duck):
-		if duck:
-			normal_collision.set_deferred("disabled", true)
-			normal_hurtbox.set_deferred("disabled", true)
-			duck_collision.set_deferred("disabled", false)
-			duck_hurtbox.set_deferred("disabled", false)
-		else:
-			normal_collision.set_deferred("disabled", false)
-			normal_hurtbox.set_deferred("disabled", false)
-			duck_collision.set_deferred("disabled", true)
-			duck_hurtbox.set_deferred("disabled", true)
+#var ducking: bool:
+	#get: 
+		#return normal_collision.disabled or normal_hurtbox.disabled
+	#set(duck):
+		#if duck:
+			#normal_collision.disabled = true
+			#normal_hurtbox.disabled = true
+			#duck_collision.disabled = false
+			#duck_hurtbox.disabled = false
+		#else:
+			#normal_collision.disabled = false
+			#normal_hurtbox.disabled = false
+			#duck_collision.disabled = true
+			#duck_hurtbox.disabled = true
+var ducking: bool
+
 var can_un_duck: bool:
 	get:
 		if not ducking:
@@ -418,6 +483,8 @@ func correct_up_corner():
 
 func _on_collide_hurt(collision: Node2D):
 	deaded = true
+	dead_particle.emitting = true
+	await get_tree().create_timer(dead_particle.lifetime).timeout
 	emit_signal("player_deaded")
 
 

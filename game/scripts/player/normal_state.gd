@@ -11,6 +11,7 @@ func _handle_input(player: Player, event: InputEvent):
 
 
 func _update(player: Player, delta: float):
+	
 	# Climb
 	if (Input.is_action_pressed("grab") and not player.is_tired and not player.ducking):
 		if player.velocity.y >= 0 and sign(player.velocity.x) != -player.facing:
@@ -45,7 +46,9 @@ func _update(player: Player, delta: float):
 		else:
 			player.velocity.x = move_toward(player.velocity.x,
 					player.move_x * max_run, player.RUN_ACCEL * mult * delta)
-		
+	
+	
+	
 	#region verical
 	# Calculate current max fall speed
 	var mf = player.MAX_FALL

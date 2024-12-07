@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2rvnpjg5wkn6"]
+
+[ext_resource type="Texture2D" uid="uid://cryhj5p2hnly3" path="res://asset/character/deltablack.png" id="1_jx25d"]
+[ext_resource type="Script" path="res://game/scripts/player/trail_sprite.gd" id="2_vjs6p"]
+
+[node name="PlayerSprite" type="Sprite2D"]
+modulate = Color(0.964706, 0.760784, 0.772549, 0.392157)
+texture = ExtResource("1_jx25d")
+hframes = 10
+vframes = 10
+frame = 1
+region_rect = Rect2(0, 0, 32, 32)
+script = ExtResource("2_vjs6p")

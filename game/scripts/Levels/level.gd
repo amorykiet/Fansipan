@@ -5,6 +5,7 @@ extends Node
 @export var gameplay_camera: GameplayCamera
 @export var player: Player
 
+var cur_room: Room
 var cur_checkpoint: Vector2
 
 func _ready():
@@ -38,10 +39,14 @@ func set_new_checkpoint(pos: Vector2):
 
 func revive_player():
 	player.global_position = cur_checkpoint
+	player.facing = sign(player.global_position.direction_to(cur_room.center).x)
+	player.velocity = Vector2.ZERO
+	player.current_state = player.normal_state
+	gameplay_camera.changing_room = false
 	player.deaded = false
-	#player.facing
 
 func set_new_room(new_room: Room):
+	cur_room = new_room
 	gameplay_camera.set_room(new_room)
 	player.room = new_room
 	player.refill_full()

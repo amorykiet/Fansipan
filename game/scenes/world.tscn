@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=4 uid="uid://m4cf5e35e821"]
+[gd_scene load_steps=18 format=4 uid="uid://m4cf5e35e821"]
 
 [ext_resource type="PackedScene" uid="uid://bouliy1de7hlo" path="res://game/scenes/player.tscn" id="1_dbl4j"]
 [ext_resource type="Script" path="res://game/scripts/manager/world.gd" id="1_w8qdf"]
 [ext_resource type="PackedScene" uid="uid://btm4yn11hd86u" path="res://game/scenes/gameplay_camera.tscn" id="2_t6nnj"]
 [ext_resource type="Script" path="res://game/scripts/levels/level.gd" id="3_vldke"]
+[ext_resource type="Script" path="res://game/scripts/player/ghost_trail_effect.gd" id="4_nk4vs"]
 [ext_resource type="Texture2D" uid="uid://clfca1j3hmj6h" path="res://asset/foreground/bridge.png" id="5_1si4o"]
 [ext_resource type="Texture2D" uid="uid://cr2cmkgfr8nvm" path="res://asset/foreground/snow.png" id="5_biiv6"]
 [ext_resource type="Texture2D" uid="uid://dwavwq612b2vo" path="res://asset/foreground/spike.png" id="6_owoqg"]
@@ -11,6 +12,19 @@
 [ext_resource type="PackedScene" uid="uid://bgho0k7161dbe" path="res://game/scenes/check_point.tscn" id="9_o2i0y"]
 [ext_resource type="Script" path="res://game/tools/debug_tool.gd" id="9_pwxyg"]
 [ext_resource type="PackedScene" uid="uid://do306eh4bpw46" path="res://game/scenes/crystal.tscn" id="10_asicy"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dgkyy"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+radial_velocity_min = 4.99998
+radial_velocity_max = 4.99998
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 0.999998
+radial_accel_max = 0.999998
+color = Color(0.966062, 0.761025, 0.771821, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rqsi4"]
 texture = ExtResource("5_1si4o")
@@ -587,9 +601,23 @@ script = ExtResource("1_w8qdf")
 
 [node name="GameplayCamera" parent="." instance=ExtResource("2_t6nnj")]
 
-[node name="Delta" parent="." instance=ExtResource("1_dbl4j")]
+[node name="Delta" parent="." node_paths=PackedStringArray("ghost_trail_effect") instance=ExtResource("1_dbl4j")]
 position = Vector2(53, 77)
 collision_mask = 18
+ghost_trail_effect = NodePath("GhostTrailEffect")
+
+[node name="GhostTrailEffect" type="Node2D" parent="Delta" node_paths=PackedStringArray("particles")]
+script = ExtResource("4_nk4vs")
+particles = NodePath("GPUParticles2D")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Delta/GhostTrailEffect"]
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_dgkyy")
+lifetime = 2.0
+one_shot = true
+speed_scale = 1.2
+explosiveness = 0.9
+randomness = 0.5
 
 [node name="Level" type="Node" parent="." node_paths=PackedStringArray("start_room", "start_checkpoint", "gameplay_camera", "player")]
 process_mode = 3
@@ -634,7 +662,7 @@ position = Vector2(331, 138)
 position = Vector2(617, -30)
 
 [node name="CheckPoint5" parent="Level/CheckPoints" instance=ExtResource("9_o2i0y")]
-position = Vector2(867, 26)
+position = Vector2(855, 26)
 
 [node name="CheckPoint6" parent="Level/CheckPoints" instance=ExtResource("9_o2i0y")]
 position = Vector2(1194, -38)
