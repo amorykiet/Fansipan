@@ -273,7 +273,10 @@ func render_animation(delta: float):
 				if velocity.y < 0:
 					change_anim("jump_up")
 				else:
-					change_anim("fall")
+					if wall_slide_dir != 0 and wall_slide_timer > 0:
+						change_anim("grab")
+					else:
+						change_anim("fall")
 		climb_state:
 			if velocity.y >= 0:
 				change_anim("grab")
