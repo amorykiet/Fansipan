@@ -74,6 +74,8 @@ grab={
 2d_physics/layer_7="Checkpoint"
 2d_physics/layer_8="Room Area"
 2d_physics/layer_9="Crystal"
+2d_physics/layer_10="Unlock Area"
+2d_physics/layer_11="Boundary"
 
 [rendering]
 

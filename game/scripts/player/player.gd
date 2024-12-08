@@ -76,6 +76,8 @@ const IDLE_CHANGE_TIME: float = 7.0
 
 #region Variables
 var room: Room
+var unlocked_dash: bool = false
+var unlocked_climb: bool = false
 
 var stamina: float = CLIMB_MAX_STAMINA
 var max_fall: float

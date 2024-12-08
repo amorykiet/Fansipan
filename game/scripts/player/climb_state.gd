@@ -36,7 +36,7 @@ func _update(player: Player, delta: float):
 		player.change_state(player.normal_state)
 	
 	# Dashing
-	if player.can_dash:
+	if player.can_dash and player.unlocked_dash:
 		player.start_dash()
 	
 	# Leave

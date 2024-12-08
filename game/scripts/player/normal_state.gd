@@ -13,14 +13,14 @@ func _handle_input(player: Player, event: InputEvent):
 func _update(player: Player, delta: float):
 	
 	# Climb
-	if (Input.is_action_pressed("grab") and not player.is_tired and not player.ducking):
+	if (Input.is_action_pressed("grab") and not player.is_tired and not player.ducking) and player.unlocked_climb:
 		if player.velocity.y >= 0 and sign(player.velocity.x) != -player.facing:
 			if player.climb_check(player.facing):
 				player.ducking = false
 				player.change_state(player.climb_state)
 			
 	# Dashing
-	if player.can_dash:
+	if player.can_dash and player.unlocked_dash:
 		player.start_dash()
 
 	# Ducking

@@ -7,7 +7,6 @@
 radius = 5.0
 
 [node name="Crystal" type="Area2D"]
-position = Vector2(95, 78)
 collision_layer = 256
 script = ExtResource("1_nwcba")
 

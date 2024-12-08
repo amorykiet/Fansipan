@@ -11,7 +11,7 @@ func _on_body_entered(body: Node2D):
 		var player: Player = body as Player
 		collision.set_deferred("disabled", true)
 		hide()
-		player.refill_dash()
+		player.refill_full()
 		recharge_timer = RECHARGE_TIME
 
 func _process(delta):
