@@ -1,0 +1,109 @@
+[gd_scene load_steps=9 format=3 uid="uid://6giwnug8c3ih"]
+
+[ext_resource type="Texture2D" uid="uid://entkmar2s1dc" path="res://asset/birds/BirdSprite.png" id="1_p1gxv"]
+[ext_resource type="Script" path="res://game/scripts/level/bird_tutorial.gd" id="2_lfc03"]
+
+[sub_resource type="Animation" id="Animation_mgbvq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_fjstu"]
+resource_name = "eating"
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [16, 17, 18, 17, 16]
+}
+
+[sub_resource type="Animation" id="Animation_x21hw"]
+resource_name = "fly"
+length = 1.2
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [8, 9, 10, 11, 12, 14]
+}
+
+[sub_resource type="Animation" id="Animation_3hdmu"]
+resource_name = "idle"
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_64cfr"]
+_data = {
+"RESET": SubResource("Animation_mgbvq"),
+"eating": SubResource("Animation_fjstu"),
+"fly": SubResource("Animation_x21hw"),
+"idle": SubResource("Animation_3hdmu")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n5188"]
+resource_local_to_scene = true
+size = Vector2(27, 20)
+
+[node name="Bird" type="Sprite2D" groups=["BirdTutorial"]]
+texture = ExtResource("1_p1gxv")
+hframes = 8
+vframes = 3
+script = ExtResource("2_lfc03")
+dir = Vector2(1, -1)
+speed = 2.0
+tutorial_name = "jump"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_64cfr")
+}
+
+[node name="TutorialDoneArea" type="Area2D" parent="."]
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TutorialDoneArea"]
+shape = SubResource("RectangleShape2D_n5188")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="body_entered" from="TutorialDoneArea" to="." method="_on_tutorial_done_body_entered"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

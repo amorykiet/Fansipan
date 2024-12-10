@@ -7,6 +7,7 @@ extends Node
 
 var cur_room: Room
 var cur_checkpoint: Vector2
+var completed: bool = false
 
 func _ready():
 	# setup player
@@ -29,7 +30,7 @@ func _ready():
 	gameplay_camera.enabled = true
 
 func _process(delta):
-	if get_tree().paused:
+	if get_tree().paused and not completed:
 		if not gameplay_camera.changing_room:
 			# player enter new room
 			get_tree().paused = false
@@ -63,3 +64,8 @@ func fit_player_to_room(room: Room):
 	player.global_position.x = clamp(player.global_position.x, left_limit, right_limit)
 	player.global_position.y = clamp(player.global_position.y, up_limit, down_limit)
 	
+
+
+func complete_level(body):
+	completed = true
+	get_tree().paused = true

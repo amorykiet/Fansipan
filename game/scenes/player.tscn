@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://game/scripts/player/player.gd" id="1_0s8a0"]
 [ext_resource type="Texture2D" uid="uid://cgyguvgs0mltu" path="res://asset/character/delta.png" id="2_1v6wv"]
-[ext_resource type="Script" path="res://game/scenes/input_move.gd" id="2_ne7sh"]
+[ext_resource type="Script" path="res://game/scripts/manager/input_move.gd" id="2_ne7sh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5tw5p"]
 resource_local_to_scene = true
@@ -230,7 +230,6 @@ radial_accel_min = -20.0
 radial_accel_max = -2.23517e-06
 scale_min = 3.0
 scale_max = 3.0
-color = Color(0.713643, 0.726289, 0.897025, 1)
 hue_variation_min = -2.23517e-08
 hue_variation_max = 0.02
 hue_variation_curve = SubResource("CurveTexture_2qemj")

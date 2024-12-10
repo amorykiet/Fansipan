@@ -1,8 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://c40os65l3hn38"]
+[gd_scene load_steps=17 format=3 uid="uid://c40os65l3hn38"]
 
 [ext_resource type="PackedScene" uid="uid://m4cf5e35e821" path="res://game/scenes/world.tscn" id="1_lc880"]
+[ext_resource type="Script" path="res://game/scripts/manager/game.gd" id="1_q348x"]
 [ext_resource type="Shader" path="res://asset/shader/pixel_perfect_camera.gdshader" id="2_oqejd"]
 [ext_resource type="Script" path="res://game/scripts/manager/world_viewport_container.gd" id="3_5abj2"]
+[ext_resource type="Texture2D" uid="uid://b8eenprfoj1jj" path="res://asset/UI/tutorial.png" id="4_csfyi"]
+[ext_resource type="FontFile" uid="uid://6mv5sx7yo8pd" path="res://asset/fonts/Kenney Bold.ttf" id="4_kthme"]
+[ext_resource type="Texture2D" uid="uid://3883i5ldn8lm" path="res://asset/UI/keyboard_c.png" id="6_i6ykn"]
+[ext_resource type="Texture2D" uid="uid://b258u3773klpa" path="res://asset/UI/keyboard_z.png" id="7_kghbd"]
+[ext_resource type="Texture2D" uid="uid://dut4njf42advg" path="res://asset/UI/keyboard_x.png" id="8_2u87a"]
+[ext_resource type="Texture2D" uid="uid://brw2y23hawdj1" path="res://asset/UI/keyboard_arrow_up.png" id="9_pd7oj"]
+[ext_resource type="Texture2D" uid="uid://brdv0kwbohmsa" path="res://asset/UI/xbox_dpad.png" id="10_7vm8v"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_crmh6"]
 shader = ExtResource("2_oqejd")
@@ -11,7 +19,28 @@ shader_parameter/cam_offset = Vector2(0, 0)
 [sub_resource type="LabelSettings" id="LabelSettings_etong"]
 font_size = 32
 
+[sub_resource type="LabelSettings" id="LabelSettings_rfp01"]
+font = ExtResource("4_kthme")
+font_size = 20
+font_color = Color(0.470517, 0.47123, 0.763482, 1)
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_k2hwd"]
+font = ExtResource("4_kthme")
+
+[sub_resource type="LabelSettings" id="LabelSettings_dkmax"]
+font = ExtResource("4_kthme")
+font_size = 20
+font_color = Color(1, 0.329412, 1, 1)
+
 [node name="Game" type="Node2D"]
+script = ExtResource("1_q348x")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_right = 1296.0
+offset_bottom = 728.0
+color = Color(0.0983342, 0.0939139, 0.210902, 1)
 
 [node name="WorldViewportContainer" type="SubViewportContainer" parent="."]
 material = SubResource("ShaderMaterial_crmh6")
@@ -60,5 +89,172 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 1
 uppercase = true
+
+[node name="JumpTutorial" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 480.0
+offset_top = 272.0
+offset_right = 616.0
+offset_bottom = 344.0
+
+[node name="TextureRect" type="TextureRect" parent="JumpTutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_csfyi")
+
+[node name="Label" type="Label" parent="JumpTutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "JUMP"
+label_settings = SubResource("LabelSettings_rfp01")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="JumpTutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = 16.0
+offset_right = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "press"
+label_settings = SubResource("LabelSettings_k2hwd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="JumpTutorial"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 8.0
+offset_right = 144.0
+offset_bottom = 72.0
+texture = ExtResource("6_i6ykn")
+
+[node name="ClimbTutorial" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 424.0
+offset_top = 280.0
+offset_right = 560.0
+offset_bottom = 352.0
+
+[node name="TextureRect" type="TextureRect" parent="ClimbTutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_csfyi")
+
+[node name="Label" type="Label" parent="ClimbTutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "CLIMB"
+label_settings = SubResource("LabelSettings_rfp01")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="ClimbTutorial"]
+layout_mode = 0
+offset_left = -16.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 72.0
+texture = ExtResource("7_kghbd")
+
+[node name="TextureRect3" type="TextureRect" parent="ClimbTutorial"]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 8.0
+offset_right = 152.0
+offset_bottom = 72.0
+texture = ExtResource("9_pd7oj")
+
+[node name="TextureRect4" type="TextureRect" parent="ClimbTutorial"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 24.0
+offset_right = 80.0
+offset_bottom = 48.0
+texture = ExtResource("10_7vm8v")
+expand_mode = 1
+
+[node name="Dashtutorial" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 344.0
+offset_top = 80.0
+offset_right = 480.0
+offset_bottom = 152.0
+
+[node name="TextureRect" type="TextureRect" parent="Dashtutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_csfyi")
+
+[node name="Label" type="Label" parent="Dashtutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "DASH"
+label_settings = SubResource("LabelSettings_dkmax")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Dashtutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = 16.0
+offset_right = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "press"
+label_settings = SubResource("LabelSettings_k2hwd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect2" type="TextureRect" parent="Dashtutorial"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 8.0
+offset_right = 144.0
+offset_bottom = 72.0
+texture = ExtResource("8_2u87a")
 
 [connection signal="camera_setted" from="WorldViewportContainer/WorldViewport/World" to="WorldViewportContainer" method="_on_world_camera_setted"]
