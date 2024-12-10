@@ -11,6 +11,7 @@ const nodash_sprite:= preload("res://asset/character/deltablack.png")
 @onready var input_move = $InputMove as InputMove
 @onready var animation_player = $AnimationPlayer as AnimationPlayer
 @onready var dead_particle = $DeadParticles as GPUParticles2D
+@onready var animation_effect = $AnimationEffect as AnimationPlayer
 
 #region Constants
 const HALF_WIDTH: int = 4
@@ -286,6 +287,11 @@ func render_animation(delta: float):
 				change_anim("climb")
 		dash_state:
 			change_anim("air")
+	
+	if stamina <= 20:
+		animation_effect.play("tire")
+	else:
+		animation_effect.play("RESET")
 
 func change_anim(anim: String):
 	if animation_player.current_animation != anim:
