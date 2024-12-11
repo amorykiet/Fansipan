@@ -116,6 +116,7 @@ var collision_on_dash: KinematicCollision2D
 var idle_change_timer: float
 var idle_anim_str: String = "idle" + str(randi_range(1,3))
 
+var started: bool = false
 #endregion
 
 #region Get/Set
@@ -168,7 +169,8 @@ func _unhandled_input(event):
 		current_state._handle_input(self, event)
 
 func _physics_process(delta):
-
+	if not started:
+		return
 	if deaded:
 		return
 	

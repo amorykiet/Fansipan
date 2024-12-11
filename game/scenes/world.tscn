@@ -985,7 +985,7 @@ speed_scale = 1.2
 explosiveness = 0.9
 randomness = 0.5
 
-[node name="Level" type="Node" parent="." node_paths=PackedStringArray("start_room", "start_checkpoint", "gameplay_camera", "player")]
+[node name="Level" type="Node" parent="." node_paths=PackedStringArray("start_room", "start_checkpoint", "gameplay_camera", "player") groups=["Level"]]
 process_mode = 3
 script = ExtResource("3_vldke")
 start_room = NodePath("Rooms/Room")

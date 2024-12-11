@@ -13,12 +13,13 @@ var left_limit: int
 var right_limit: int
 
 var changing_room: bool = false
+var started: bool = false
 
 func _ready():
 	global_position = Vector2.ZERO
 	
 func _process(delta) -> void:
-	if target == null or not enabled:
+	if target == null or not enabled or not started: 
 		return
 	
 	# set target position
