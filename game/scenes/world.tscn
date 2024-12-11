@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://m4cf5e35e821"]
+[gd_scene load_steps=33 format=4 uid="uid://m4cf5e35e821"]
 
 [ext_resource type="PackedScene" uid="uid://bouliy1de7hlo" path="res://game/scenes/player.tscn" id="1_dbl4j"]
 [ext_resource type="Script" path="res://game/scripts/manager/world.gd" id="1_w8qdf"]
@@ -17,6 +17,10 @@
 [ext_resource type="Script" path="res://game/scripts/level/unlock_dash_area.gd" id="14_24ta0"]
 [ext_resource type="Script" path="res://game/scripts/level/finish_area.gd" id="15_lhlfi"]
 [ext_resource type="PackedScene" uid="uid://6giwnug8c3ih" path="res://game/scenes/bird.tscn" id="17_bxxdd"]
+[ext_resource type="Texture2D" uid="uid://ctly3n8atwhw8" path="res://asset/background/1.png" id="18_xcwul"]
+[ext_resource type="Texture2D" uid="uid://cop7rv12jvj81" path="res://asset/background/2.png" id="19_fuxn6"]
+[ext_resource type="Texture2D" uid="uid://4h3bn8afm2i2" path="res://asset/background/3.png" id="20_btswh"]
+[ext_resource type="Texture2D" uid="uid://bv2hbfh417wny" path="res://asset/background/4.png" id="21_7vsy2"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_my4lp"]
 particle_flag_disable_z = true
@@ -1029,7 +1033,7 @@ boundary = Rect2i(0, 0, 320, 800)
 [node name="CheckPoints" type="Node" parent="Level"]
 
 [node name="CheckPoint" parent="Level/CheckPoints" instance=ExtResource("9_o2i0y")]
-position = Vector2(13, 112)
+position = Vector2(13, 114)
 
 [node name="CheckPoint2" parent="Level/CheckPoints" instance=ExtResource("9_o2i0y")]
 position = Vector2(285, 106)
@@ -1141,6 +1145,34 @@ tutorial_name = "dash"
 [node name="CollisionShape2D" parent="Bird3/TutorialDoneArea" index="0"]
 position = Vector2(-33.5, 0)
 shape = SubResource("RectangleShape2D_l1q7w")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -100
+follow_viewport_enabled = true
+
+[node name="SkyColor" type="Sprite2D" parent="Background"]
+position = Vector2(786.5, -446.5)
+scale = Vector2(3.7309, 4.00309)
+texture = ExtResource("18_xcwul")
+
+[node name="Star" type="Sprite2D" parent="Background"]
+position = Vector2(1294, -898)
+texture = ExtResource("19_fuxn6")
+
+[node name="Parallax2D" type="Parallax2D" parent="Background"]
+repeat_size = Vector2(1728, 0)
+autoscroll = Vector2(-5, 0)
+
+[node name="Cloud2" type="Sprite2D" parent="Background/Parallax2D"]
+visible = false
+position = Vector2(742, -275)
+scale = Vector2(3, 3)
+texture = ExtResource("21_7vsy2")
+
+[node name="Cloud1" type="Sprite2D" parent="Background/Parallax2D"]
+position = Vector2(686, -282)
+scale = Vector2(3, 3)
+texture = ExtResource("20_btswh")
 
 [connection signal="body_entered" from="Level/UnlockClimbArea" to="Level/UnlockClimbArea" method="_on_body_entered"]
 [connection signal="body_entered" from="Level/UnlockDashArea" to="Level/UnlockDashArea" method="_on_body_entered"]
