@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://c40os65l3hn38"]
+[gd_scene load_steps=27 format=3 uid="uid://c40os65l3hn38"]
 
 [ext_resource type="PackedScene" uid="uid://m4cf5e35e821" path="res://game/scenes/world.tscn" id="1_lc880"]
 [ext_resource type="Script" path="res://game/scripts/manager/game.gd" id="1_q348x"]
@@ -14,6 +14,7 @@
 [ext_resource type="Shader" path="res://asset/shader/screen.gdshader" id="12_wecn7"]
 [ext_resource type="Shader" path="res://game/scenes/profile_screen.gdshader" id="13_cyqu8"]
 [ext_resource type="Texture2D" uid="uid://d1sty5ihiq8wp" path="res://asset/wholeScreen/profile.png" id="14_xavsi"]
+[ext_resource type="Texture2D" uid="uid://pui5071x2qno" path="res://asset/wholeScreen/ending.png" id="15_idphk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_crmh6"]
 shader = ExtResource("2_oqejd")
@@ -42,6 +43,11 @@ shader_parameter/position = Vector2(335, 90)
 shader = ExtResource("13_cyqu8")
 shader_parameter/outerRadius = 0.0
 shader_parameter/position = Vector2(1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_grqo2"]
+shader = ExtResource("13_cyqu8")
+shader_parameter/outerRadius = 380.0
+shader_parameter/position = Vector2(160, 140)
 
 [sub_resource type="Animation" id="Animation_b34cn"]
 resource_name = "open"
@@ -78,7 +84,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("TextureRect:material:shader_parameter/outerRadius")
+tracks/2/path = NodePath("OpenScreen:material:shader_parameter/outerRadius")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -105,7 +111,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("TextureRect:material:shader_parameter/outerRadius")
+tracks/1/path = NodePath("OpenScreen:material:shader_parameter/outerRadius")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -114,9 +120,22 @@ tracks/1/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("EndScreen:material:shader_parameter/outerRadius")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [380.0]
+}
 
 [sub_resource type="Animation" id="Animation_pmqjq"]
 resource_name = "end"
+length = 5.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -142,6 +161,18 @@ tracks/1/keys = {
 "args": [],
 "method": &"pause"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("EndScreen:material:shader_parameter/outerRadius")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.8, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [380.0, 0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ifou2"]
@@ -344,17 +375,22 @@ offset_bottom = 72.0
 texture = ExtResource("8_2u87a")
 
 [node name="ScreenBlackEffect" type="ColorRect" parent="."]
-visible = false
 material = SubResource("ShaderMaterial_671hd")
-offset_right = 1296.0
-offset_bottom = 728.0
+offset_right = 1280.0
+offset_bottom = 720.0
 color = Color(0.0983342, 0.0939139, 0.210902, 1)
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="OpenScreen" type="TextureRect" parent="."]
 material = SubResource("ShaderMaterial_e70pj")
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("14_xavsi")
+
+[node name="EndScreen" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_grqo2")
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("15_idphk")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 process_mode = 3
