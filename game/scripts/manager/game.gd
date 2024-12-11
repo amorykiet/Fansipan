@@ -5,6 +5,7 @@ extends Node2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var screen_black_effect: ColorRect = $ScreenBlackEffect
 @onready var world = $WorldViewportContainer/WorldViewport/World
+@onready var texture_rect: TextureRect = $TextureRect
 
 
 var screen_black_effect_mat: ShaderMaterial
@@ -25,6 +26,7 @@ func _ready():
 	
 	screen_black_effect_mat = screen_black_effect.material
 	screen_black_effect_mat.set_shader_parameter("position", Vector2(15, 100))
+	texture_rect.material.set_shader_parameter("position", Vector2(15, 100))
 	animation_player.play("open")
 
 func pause():

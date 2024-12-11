@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c40os65l3hn38"]
+[gd_scene load_steps=25 format=3 uid="uid://c40os65l3hn38"]
 
 [ext_resource type="PackedScene" uid="uid://m4cf5e35e821" path="res://game/scenes/world.tscn" id="1_lc880"]
 [ext_resource type="Script" path="res://game/scripts/manager/game.gd" id="1_q348x"]
@@ -12,6 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://brw2y23hawdj1" path="res://asset/UI/keyboard_arrow_up.png" id="9_pd7oj"]
 [ext_resource type="Texture2D" uid="uid://brdv0kwbohmsa" path="res://asset/UI/xbox_dpad.png" id="10_7vm8v"]
 [ext_resource type="Shader" path="res://asset/shader/screen.gdshader" id="12_wecn7"]
+[ext_resource type="Shader" path="res://game/scenes/profile_screen.gdshader" id="13_cyqu8"]
+[ext_resource type="Texture2D" uid="uid://d1sty5ihiq8wp" path="res://asset/wholeScreen/profile.png" id="14_xavsi"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_crmh6"]
 shader = ExtResource("2_oqejd")
@@ -36,9 +38,14 @@ shader = ExtResource("12_wecn7")
 shader_parameter/outerRadius = 30.0
 shader_parameter/position = Vector2(335, 90)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e70pj"]
+shader = ExtResource("13_cyqu8")
+shader_parameter/outerRadius = 0.0
+shader_parameter/position = Vector2(1, 1)
+
 [sub_resource type="Animation" id="Animation_b34cn"]
 resource_name = "open"
-length = 2.5
+length = 5.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -46,10 +53,10 @@ tracks/0/path = NodePath("ScreenBlackEffect:material:shader_parameter/outerRadiu
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.733333, 1.53333, 2.03333),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 2.4, 3.03333, 4.16667, 4.93333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, 30.0, 30.0, 375.0]
+"values": [0.0, 0.0, 30.0, 30.0, 375.0]
 }
 tracks/1/type = "method"
 tracks/1/imported = false
@@ -58,7 +65,7 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 2.43333),
+"times": PackedFloat32Array(0, 4.93333),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
@@ -67,6 +74,18 @@ tracks/1/keys = {
 "args": [],
 "method": &"start"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TextureRect:material:shader_parameter/outerRadius")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2.4, 3.03333, 4.16667, 4.93333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 30.0, 30.0, 375.0]
 }
 
 [sub_resource type="Animation" id="Animation_5d2kg"]
@@ -82,6 +101,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [30.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureRect:material:shader_parameter/outerRadius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_pmqjq"]
@@ -313,10 +344,17 @@ offset_bottom = 72.0
 texture = ExtResource("8_2u87a")
 
 [node name="ScreenBlackEffect" type="ColorRect" parent="."]
+visible = false
 material = SubResource("ShaderMaterial_671hd")
 offset_right = 1296.0
 offset_bottom = 728.0
 color = Color(0.0983342, 0.0939139, 0.210902, 1)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_e70pj")
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("14_xavsi")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 process_mode = 3

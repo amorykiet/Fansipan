@@ -13,6 +13,7 @@ config_version=5
 config/name="Fansipan"
 run/main_scene="res://game/scenes/game.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
+boot_splash/image="res://asset/wholeScreen/profile.png"
 
 [autoload]
 
@@ -44,6 +45,7 @@ folder_colors={
 
 CheckPoint=""
 Room=""
+Level=""
 
 [input]
 
