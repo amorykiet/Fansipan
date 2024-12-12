@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://c40os65l3hn38"]
+[gd_scene load_steps=29 format=3 uid="uid://c40os65l3hn38"]
 
 [ext_resource type="PackedScene" uid="uid://m4cf5e35e821" path="res://game/scenes/world.tscn" id="1_lc880"]
 [ext_resource type="Script" path="res://game/scripts/manager/game.gd" id="1_q348x"]
@@ -15,6 +15,8 @@
 [ext_resource type="Shader" path="res://game/scenes/profile_screen.gdshader" id="13_cyqu8"]
 [ext_resource type="Texture2D" uid="uid://d1sty5ihiq8wp" path="res://asset/wholeScreen/profile.png" id="14_xavsi"]
 [ext_resource type="Texture2D" uid="uid://pui5071x2qno" path="res://asset/wholeScreen/ending.png" id="15_idphk"]
+[ext_resource type="AudioStream" uid="uid://72f3demm2vq0" path="res://asset/audio/Snowflakes_2.mp3" id="16_p4q55"]
+[ext_resource type="AudioStream" uid="uid://c5k50ya5v74o6" path="res://asset/audio/maximize_001.ogg" id="17_demi7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_crmh6"]
 shader = ExtResource("2_oqejd")
@@ -48,51 +50,6 @@ shader_parameter/position = Vector2(1, 1)
 shader = ExtResource("13_cyqu8")
 shader_parameter/outerRadius = 380.0
 shader_parameter/position = Vector2(160, 140)
-
-[sub_resource type="Animation" id="Animation_b34cn"]
-resource_name = "open"
-length = 5.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ScreenBlackEffect:material:shader_parameter/outerRadius")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 2.4, 3.03333, 4.16667, 4.93333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [0.0, 0.0, 30.0, 30.0, 375.0]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 4.93333),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"pause"
-}, {
-"args": [],
-"method": &"start"
-}]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("OpenScreen:material:shader_parameter/outerRadius")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 2.4, 3.03333, 4.16667, 4.93333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [0.0, 0.0, 30.0, 30.0, 375.0]
-}
 
 [sub_resource type="Animation" id="Animation_5d2kg"]
 length = 0.001
@@ -131,6 +88,42 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [380.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MusicLoopAudio:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("OpenSFX:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("MusicLoopAudio:volume_db")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-20.0]
 }
 
 [sub_resource type="Animation" id="Animation_pmqjq"]
@@ -174,6 +167,88 @@ tracks/2/keys = {
 "update": 0,
 "values": [380.0, 0.0]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MusicLoopAudio:volume_db")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.76667, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-20.0, -10.0]
+}
+
+[sub_resource type="Animation" id="Animation_b34cn"]
+resource_name = "open"
+length = 5.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ScreenBlackEffect:material:shader_parameter/outerRadius")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.4, 2.65, 4.16667, 4.93333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 30.0, 30.0, 375.0]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4.93333),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"pause"
+}, {
+"args": [],
+"method": &"start"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("OpenScreen:material:shader_parameter/outerRadius")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2.4, 2.7, 4.16667, 4.93333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 30.0, 30.0, 375.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MusicLoopAudio:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("OpenSFX:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(2.4),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ifou2"]
 _data = {
@@ -190,8 +265,10 @@ material = SubResource("ShaderMaterial_crmh6")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 322.0
-offset_bottom = 182.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 318.0
+offset_bottom = 178.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(4, 4)
@@ -397,5 +474,21 @@ process_mode = 3
 libraries = {
 "": SubResource("AnimationLibrary_ifou2")
 }
+
+[node name="EndSFX" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+bus = &"SFX"
+
+[node name="MusicLoopAudio" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("16_p4q55")
+volume_db = -20.0
+bus = &"Music"
+
+[node name="OpenSFX" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("17_demi7")
+volume_db = -10.0
+bus = &"SFX"
 
 [connection signal="camera_setted" from="WorldViewportContainer/WorldViewport/World" to="WorldViewportContainer" method="_on_world_camera_setted"]

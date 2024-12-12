@@ -1,9 +1,12 @@
-[gd_scene load_steps=28 format=3 uid="uid://bouliy1de7hlo"]
+[gd_scene load_steps=31 format=3 uid="uid://bouliy1de7hlo"]
 
 [ext_resource type="Script" path="res://game/scripts/player/player.gd" id="1_0s8a0"]
 [ext_resource type="Texture2D" uid="uid://cgyguvgs0mltu" path="res://asset/character/delta.png" id="2_1v6wv"]
 [ext_resource type="Shader" path="res://asset/shader/player.gdshader" id="2_alwld"]
 [ext_resource type="Script" path="res://game/scripts/manager/input_move.gd" id="2_ne7sh"]
+[ext_resource type="AudioStream" uid="uid://bxxm5ccwmpnp5" path="res://asset/audio/laser7.ogg" id="5_fitlj"]
+[ext_resource type="AudioStream" uid="uid://c73cply51svcp" path="res://asset/audio/phaseJump5.ogg" id="6_rn0mw"]
+[ext_resource type="AudioStream" uid="uid://geo7p0qg5d6v" path="res://asset/audio/highUp.ogg" id="7_4h2nh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_d1q5r"]
 shader = ExtResource("2_alwld")
@@ -372,6 +375,23 @@ explosiveness = 1.0
 libraries = {
 "": SubResource("AnimationLibrary_2278h")
 }
+
+[node name="DeadSFX" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("5_fitlj")
+mix_target = 2
+bus = &"SFX"
+
+[node name="JumpSFX" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("6_rn0mw")
+mix_target = 2
+bus = &"SFX"
+
+[node name="DashSFX" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("7_4h2nh")
+bus = &"DashSFX"
 
 [connection signal="body_entered" from="NormalHurtbox" to="." method="_on_collide_hurt"]
 [connection signal="body_entered" from="DuckHurtbox" to="." method="_on_collide_hurt"]

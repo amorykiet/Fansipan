@@ -2,6 +2,7 @@ class_name DashState
 extends State
 
 func _enter(player: Player):
+	player.dash_sfx.play()
 	player.dash_started_on_ground = player.on_ground
 	player.dash_cooldown_timer = player.DASH_COOLDOWN
 	player.dash_refill_cooldown_timer = player.DASH_REFILL_COOLDOWN

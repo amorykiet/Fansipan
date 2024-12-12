@@ -12,6 +12,9 @@ const nodash_sprite:= preload("res://asset/character/deltablack.png")
 @onready var animation_player = $AnimationPlayer as AnimationPlayer
 @onready var dead_particle = $DeadParticles as GPUParticles2D
 @onready var animation_effect = $AnimationEffect as AnimationPlayer
+@onready var dead_sfx = $DeadSFX as AudioStreamPlayer
+@onready var jump_sfx = $JumpSFX as AudioStreamPlayer
+@onready var dash_sfx = $DashSFX as AudioStreamPlayer
 
 #region Constants
 const HALF_WIDTH: int = 4
@@ -422,6 +425,7 @@ var can_un_duck: bool:
 #region Jump
 
 func jump():
+	jump_sfx.play()
 	InputBuffer.comsume_action("jump")
 	jump_grace_timer = 0
 	var_jump_timer = VAR_JUMP_TIME
@@ -436,6 +440,7 @@ func wall_jump_check(dir: int) -> bool:
 	return collide_check(Vector2.RIGHT * (HALF_WIDTH + WALL_JUMP_CHECK_DIST) * dir)
 
 func wall_jump(dir: int):
+	jump_sfx.play()
 	ducking = false
 	InputBuffer.comsume_action("jump")
 	jump_grace_timer = 0
@@ -456,6 +461,7 @@ func wall_jump(dir: int):
 	#NOTE: effect
 
 func climb_jump():
+	jump_sfx.play()
 	if not on_ground:
 		stamina -= CLIMB_JUMP_COST
 	jump()
@@ -495,6 +501,8 @@ func correct_up_corner():
 
 
 func _on_collide_hurt(collision: Node2D):
+	if not dead_sfx.playing:
+		dead_sfx.play()
 	deaded = true
 	dead_particle.emitting = true
 	await get_tree().create_timer(dead_particle.lifetime).timeout

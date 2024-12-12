@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://do306eh4bpw46"]
+[gd_scene load_steps=5 format=3 uid="uid://do306eh4bpw46"]
 
 [ext_resource type="Script" path="res://game/scripts/level/crystal.gd" id="1_nwcba"]
 [ext_resource type="Texture2D" uid="uid://mfa77ylu5uei" path="res://asset/foreground/crystal.png" id="2_kgqug"]
+[ext_resource type="AudioStream" uid="uid://bu4jgpc7bjk75" path="res://asset/audio/zap1.ogg" id="3_v52fm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ajr03"]
 radius = 5.0
@@ -15,5 +16,9 @@ shape = SubResource("CircleShape2D_ajr03")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_kgqug")
+
+[node name="CollectSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_v52fm")
+bus = &"BackgroundSFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
