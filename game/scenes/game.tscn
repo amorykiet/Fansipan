@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://brw2y23hawdj1" path="res://asset/UI/keyboard_arrow_up.png" id="9_pd7oj"]
 [ext_resource type="Texture2D" uid="uid://brdv0kwbohmsa" path="res://asset/UI/xbox_dpad.png" id="10_7vm8v"]
 [ext_resource type="Shader" path="res://asset/shader/screen.gdshader" id="12_wecn7"]
-[ext_resource type="Shader" path="res://game/scenes/profile_screen.gdshader" id="13_cyqu8"]
+[ext_resource type="Shader" path="res://asset/shader/profile_screen.gdshader" id="13_cyqu8"]
 [ext_resource type="Texture2D" uid="uid://d1sty5ihiq8wp" path="res://asset/wholeScreen/profile.png" id="14_xavsi"]
 [ext_resource type="Texture2D" uid="uid://pui5071x2qno" path="res://asset/wholeScreen/ending.png" id="15_idphk"]
 [ext_resource type="Texture2D" uid="uid://bg73ltoi68yyn" path="res://asset/wholeScreen/credit.png" id="16_ns8a4"]
