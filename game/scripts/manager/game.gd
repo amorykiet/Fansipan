@@ -1,12 +1,11 @@
 extends Node2D
-@onready var jump_tutorial: Control = $JumpTutorial
+@onready var jump_tutorial = $JumpTutorial
 @onready var climb_tutorial: Control = $ClimbTutorial
 @onready var dash_tutorial: Control = $Dashtutorial
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var screen_black_effect: ColorRect = $ScreenBlackEffect
-@onready var world = $WorldViewportContainer/WorldViewport/World
 @onready var open_screen: TextureRect = $OpenScreen
-
+@onready var world = $WorldViewportContainer/WorldViewport/World
 
 var screen_black_effect_mat: ShaderMaterial
 var cur_level: Level

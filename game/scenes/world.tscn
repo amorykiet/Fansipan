@@ -1,7 +1,7 @@
 [gd_scene load_steps=33 format=4 uid="uid://m4cf5e35e821"]
 
+[ext_resource type="Script" path="res://game/scripts/Manager/world.gd" id="1_d3s67"]
 [ext_resource type="PackedScene" uid="uid://bouliy1de7hlo" path="res://game/scenes/player.tscn" id="1_dbl4j"]
-[ext_resource type="Script" path="res://game/scripts/manager/world.gd" id="1_w8qdf"]
 [ext_resource type="PackedScene" uid="uid://btm4yn11hd86u" path="res://game/scenes/gameplay_camera.tscn" id="2_t6nnj"]
 [ext_resource type="Script" path="res://game/scripts/level/level.gd" id="3_vldke"]
 [ext_resource type="Script" path="res://game/scripts/player/ghost_trail_effect.gd" id="4_nk4vs"]
@@ -953,7 +953,7 @@ resource_local_to_scene = true
 size = Vector2(95, 20)
 
 [node name="World" type="Node2D"]
-script = ExtResource("1_w8qdf")
+script = ExtResource("1_d3s67")
 
 [node name="GameplayCamera" parent="." instance=ExtResource("2_t6nnj")]
 position = Vector2(245, -91)
