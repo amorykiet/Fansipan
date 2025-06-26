@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bgho0k7161dbe"]
 
-[ext_resource type="Script" path="res://game/scripts/level/check_point.gd" id="1_ev6rj"]
+[ext_resource type="Script" uid="uid://dpahibp7ik2i2" path="res://game/scripts/level/check_point.gd" id="1_ev6rj"]
 [ext_resource type="Texture2D" uid="uid://cgyguvgs0mltu" path="res://asset/character/delta.png" id="2_r5ius"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t5am2"]

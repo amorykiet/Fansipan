@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://do306eh4bpw46"]
 
-[ext_resource type="Script" path="res://game/scripts/level/crystal.gd" id="1_nwcba"]
+[ext_resource type="Script" uid="uid://f7lmkgwm8ame" path="res://game/scripts/level/crystal.gd" id="1_nwcba"]
 [ext_resource type="Texture2D" uid="uid://mfa77ylu5uei" path="res://asset/foreground/crystal.png" id="2_kgqug"]
 [ext_resource type="AudioStream" uid="uid://bu4jgpc7bjk75" path="res://asset/audio/zap1.ogg" id="3_v52fm"]
 

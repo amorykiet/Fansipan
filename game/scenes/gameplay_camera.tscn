@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://btm4yn11hd86u"]
 
-[ext_resource type="Script" path="res://game/scripts/Manager/gameplay_camera.gd" id="1_dnyt6"]
+[ext_resource type="Script" uid="uid://xrudbiok1rcc" path="res://game/scripts/Manager/gameplay_camera.gd" id="1_dnyt6"]
 
 [node name="GameplayCamera" type="Camera2D"]
 process_mode = 3

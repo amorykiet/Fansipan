@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cai52dmonwstk"]
 
-[ext_resource type="Script" path="res://game/scripts/level/room.gd" id="1_xb5tb"]
-[ext_resource type="Script" path="res://game/tools/boundary_tool.gd" id="2_nqr7m"]
+[ext_resource type="Script" uid="uid://d1frp0yf7lnew" path="res://game/scripts/level/room.gd" id="1_xb5tb"]
+[ext_resource type="Script" uid="uid://bdax3q047svfs" path="res://game/tools/boundary_tool.gd" id="2_nqr7m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tc3d0"]
 resource_local_to_scene = true

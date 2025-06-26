@@ -1,9 +1,9 @@
 [gd_scene load_steps=31 format=3 uid="uid://bouliy1de7hlo"]
 
-[ext_resource type="Script" path="res://game/scripts/player/player.gd" id="1_0s8a0"]
+[ext_resource type="Script" uid="uid://d4c5hr3o8qcv2" path="res://game/scripts/player/player.gd" id="1_0s8a0"]
 [ext_resource type="Texture2D" uid="uid://cgyguvgs0mltu" path="res://asset/character/delta.png" id="2_1v6wv"]
-[ext_resource type="Shader" path="res://asset/shader/player.gdshader" id="2_alwld"]
-[ext_resource type="Script" path="res://game/scripts/Manager/input_move.gd" id="4_o5jij"]
+[ext_resource type="Shader" uid="uid://cvxacan768xjj" path="res://asset/shader/player.gdshader" id="2_alwld"]
+[ext_resource type="Script" uid="uid://cywr5kt21wqk" path="res://game/scripts/Manager/input_move.gd" id="4_o5jij"]
 [ext_resource type="AudioStream" uid="uid://bxxm5ccwmpnp5" path="res://asset/audio/laser7.ogg" id="5_fitlj"]
 [ext_resource type="AudioStream" uid="uid://c73cply51svcp" path="res://asset/audio/phaseJump5.ogg" id="6_rn0mw"]
 [ext_resource type="AudioStream" uid="uid://geo7p0qg5d6v" path="res://asset/audio/highUp.ogg" id="7_4h2nh"]
@@ -206,21 +206,21 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hkmnd"]
 _data = {
-"RESET": SubResource("Animation_hr4iw"),
-"air": SubResource("Animation_4fyhu"),
-"climb": SubResource("Animation_iutns"),
-"duck": SubResource("Animation_xki8w"),
-"fall": SubResource("Animation_x2v36"),
-"grab": SubResource("Animation_7yka0"),
-"idle1": SubResource("Animation_qln8l"),
-"idle2": SubResource("Animation_a53va"),
-"idle3": SubResource("Animation_iqkx4"),
-"jump_up": SubResource("Animation_8mv6u"),
-"run": SubResource("Animation_6hiim")
+&"RESET": SubResource("Animation_hr4iw"),
+&"air": SubResource("Animation_4fyhu"),
+&"climb": SubResource("Animation_iutns"),
+&"duck": SubResource("Animation_xki8w"),
+&"fall": SubResource("Animation_x2v36"),
+&"grab": SubResource("Animation_7yka0"),
+&"idle1": SubResource("Animation_qln8l"),
+&"idle2": SubResource("Animation_a53va"),
+&"idle3": SubResource("Animation_iqkx4"),
+&"jump_up": SubResource("Animation_8mv6u"),
+&"run": SubResource("Animation_6hiim")
 }
 
 [sub_resource type="Curve" id="Curve_x13bp"]
-min_value = -1.0
+_limits = [-1.0, 1.0, 0.0, 1.0]
 _data = [Vector2(0.00793651, -0.901887), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -302,8 +302,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2278h"]
 _data = {
-"RESET": SubResource("Animation_mpxkx"),
-"tire": SubResource("Animation_8p5ng")
+&"RESET": SubResource("Animation_mpxkx"),
+&"tire": SubResource("Animation_8p5ng")
 }
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite")]

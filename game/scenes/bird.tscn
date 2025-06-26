@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://6giwnug8c3ih"]
 
 [ext_resource type="Texture2D" uid="uid://entkmar2s1dc" path="res://asset/birds/BirdSprite.png" id="1_p1gxv"]
-[ext_resource type="Script" path="res://game/scripts/level/bird_tutorial.gd" id="2_lfc03"]
+[ext_resource type="Script" uid="uid://ggcewcjouo8p" path="res://game/scripts/level/bird_tutorial.gd" id="2_lfc03"]
 
 [sub_resource type="Animation" id="Animation_mgbvq"]
 length = 0.001
@@ -71,10 +71,10 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_64cfr"]
 _data = {
-"RESET": SubResource("Animation_mgbvq"),
-"eating": SubResource("Animation_fjstu"),
-"fly": SubResource("Animation_x21hw"),
-"idle": SubResource("Animation_3hdmu")
+&"RESET": SubResource("Animation_mgbvq"),
+&"eating": SubResource("Animation_fjstu"),
+&"fly": SubResource("Animation_x21hw"),
+&"idle": SubResource("Animation_3hdmu")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n5188"]
